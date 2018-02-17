@@ -2693,7 +2693,7 @@ video.responsive-video {
 }
 
 .pagination li.active {
-  background-color: #ee6e73;
+  background-color: #0277bd;
 }
 
 .pagination li.disabled a {
@@ -5062,7 +5062,7 @@ small {
 
 .tabs .tab a:hover, .tabs .tab a.active {
   background-color: transparent;
-  color: #ee6e73;
+  color: #0277bd !important;
 }
 
 .tabs .tab.disabled a,
@@ -5075,7 +5075,7 @@ small {
   position: absolute;
   bottom: 0;
   height: 2px;
-  background-color: #f6b2b5;
+  background-color: #0277bd;
   will-change: left, right;
 }
 
@@ -8963,7 +8963,7 @@ input[type=range]:focus::-ms-fill-upper {
 }*/
 .picker__date-display {
   text-align: left;
-  background-color: #26a69a;
+  background-color: #0277bd;
   color: #fff;
   padding: 18px;
   font-weight: 300;

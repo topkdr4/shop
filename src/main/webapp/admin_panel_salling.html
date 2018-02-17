@@ -120,68 +120,87 @@
     </div>
 
     <main class="row">
-        <!-- Карусель на главной странице -->
-        <div class="col s12">
+        <div class="col s8 offset-s2">
+
             <div class="card">
-                <div class="card-content">
-                    <span class="card-title">
-                        <b>&laquo;Карусель&raquo;</b><br>
-                        <input type="checkbox" class="filled-in" id="carousel" checked="checked" />
-                        <label for="carousel">Включить</label>
+                <ul class="tabs tabs-fixed-width">
+                    <li class="tab col s3"><a href="#test1" class="active grey-text">Сводная</a></li>
+                    <li class="tab col s3"><a class="grey-text" href="#test2">Категории</a></li>
+                    <li class="tab col s3"><a href="#test3" class="grey-text">Товар</a></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="row valign-wrapper">
+                    <span class="col s4">
+                        <input type="checkbox" class="filled-in" id="without-date" checked="checked"/>
+                        <label for="without-date">Без даты</label>
                     </span>
-                </div>
-                <div class="card-action">
-                    <a class="waves-effect waves-light btn light-blue darken-3"><i class="material-icons left">save</i>Сохранить</a>
+                    <div class="input-field col s4">
+                        <input type="text" class="datepicker" id="date-from" />
+                        <label for="date-from">От</label>
+                    </div>
+                    <div class="input-field col s4">
+                        <input type="text" class="datepicker" id="date-to" >
+                        <label for="date-to">До</label>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Лучшие товары на главной странице -->
-        <div class="col s12">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title">
-                        <b>&laquo;Лучшие предложения&raquo;</b><br>
-                        <input type="checkbox" class="filled-in" id="best-product" checked="checked" />
-                        <label for="best-product">Включить</label>
-                    </span>
-                </div>
-                <div class="card-action">
-                    <a class="waves-effect waves-light btn light-blue darken-3"><i class="material-icons left">save</i>Сохранить</a>
-                </div>
+            <div id="test1" class="card small">
+
             </div>
-        </div>
 
-        <!-- Почтовые настройки -->
-        <div class="col s12">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title">
-                       <b>&laquo;Почта&raquo;</b>
-                    </span>
+            <div id="test2" class="row">
+                <div class="card">
                     <div class="row">
-                        <div class="input-field col s6">
-                            <input placeholder="Хост" id="host" type="text" />
-                            <label for="host">mail.smtp.host</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <input placeholder="Порт" id="port" type="text" />
-                            <label for="port">mail.smtp.port</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <input placeholder="Адрес почты" id="address" type="text" />
-                            <label for="address">Адрес почты</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <input placeholder="Пароль" id="password" type="password" />
-                            <label for="password">Пароль</label>
+                        <div class="input-field col s12">
+                            <select>
+                                <option value="" disabled selected>-- Категория товара --</option>
+                                <option value="1">Option 1</option>
+                                <option value="2">Option 2</option>
+                                <option value="3">Option 3</option>
+                            </select>
+                            <label>Катеогрия товара:</label>
                         </div>
                     </div>
                 </div>
-                <div class="card-action">
-                    <a class="waves-effect waves-light btn light-blue darken-3"><i class="material-icons left">save</i>Сохранить</a>
+
+                <div class="card small">
+
                 </div>
             </div>
+
+            <div id="test3" class="row">
+                <div class="card">
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <select>
+                                <option value="" disabled selected>-- Категория товара --</option>
+                                <option value="1">Option 1</option>
+                                <option value="2">Option 2</option>
+                                <option value="3">Option 3</option>
+                            </select>
+                            <label>Катеогрия товара:</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <select>
+                                <option value="" disabled selected>-- Товар --</option>
+                                <option value="1">Option 1</option>
+                                <option value="2">Option 2</option>
+                                <option value="3">Option 3</option>
+                            </select>
+                            <label>Товар:</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card small">
+
+                </div>
+            </div>
+
+
         </div>
     </main>
 
@@ -206,6 +225,17 @@
         $hover.on('click', showMenu);
 
         $('.collapsible').collapsible();
+        $('select').material_select();
+        $('ul.tabs').tabs();
+
+        $('.datepicker').pickadate({
+            selectMonths: true, // Creates a dropdown to control month
+            selectYears: 18, // Creates a dropdown of 15 years to control year,
+            today: 'Сегодня',
+            clear: 'Отчистить',
+            close: 'Ок',
+            closeOnSelect: false // Close upon selecting a date,
+        });
     </script>
 
 </html>
