@@ -1,10 +1,10 @@
+package utils;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -37,14 +37,8 @@ public class Jackson {
     }
 
 
-    public static <T> T toObject(String json, Class<T> clazz) throws IOException {
-        return jsonMapper.readValue(json, clazz);
-    }
-
-
     public static ObjectMapper getJsonMapper() {
         return jsonMapper;
     }
-
 
 }

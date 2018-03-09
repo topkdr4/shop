@@ -2689,7 +2689,7 @@
                     });
                     key = key.join(',');
 
-                    // Check if a gradient object with the same config object is created within this renderer
+                    // Check if a gradient object with the same configuration object is created within this renderer
                     if (gradients[key]) {
                         id = gradients[key].attr('id');
 
@@ -7178,7 +7178,7 @@
                  * Take a color and return it if it's a string, make it a gradient if it's a
                  * gradient configuration object, and apply opacity.
                  *
-                 * @param {Object} color The color or config object
+                 * @param {Object} color The color or configuration object
                  */
                 color: function(color, elem, prop, wrapper) {
                     var renderer = this,
@@ -9010,7 +9010,7 @@
             },
 
             /**
-             * The default label formatter. The context is a special config object for
+             * The default label formatter. The context is a special configuration object for
              * the label. In apps, use the {@link
              * https://api.highcharts.com/highcharts/xAxis.labels.formatter|
              * labels.formatter} instead except when a modification is needed.
@@ -15919,7 +15919,7 @@
             },
 
             /**
-             * Create the Axis instances based on the config options
+             * Create the Axis instances based on the configuration options
              */
             getAxes: function() {
                 var chart = this,
@@ -17746,7 +17746,7 @@
          *
          * The data in the series is stored in various arrays.
          *
-         * - First, `series.options.data` contains all the original config options for
+         * - First, `series.options.data` contains all the original configuration options for
          * each point whether added by options or methods like `series.addPoint`.
          * - Next, `series.data` contains those values converted to points, but in case
          * the series data length exceeds the `cropThreshold`, or if the data is grouped,
@@ -20672,7 +20672,7 @@
              * option instead. With multiple axes, the `offset` is dynamically adjusted.
              *
              * @param  {SeriesOptions} options
-             *         The config options for the series.
+             *         The configuration options for the series.
              * @param  {Boolean} [redraw=true]
              *         Whether to redraw the chart after adding.
              * @param  {AnimationOptions} animation
@@ -21117,7 +21117,7 @@
                     i = point.index;
                     series.updateParallelArrays(point, i);
 
-                    // Record the options to options.data. If the old or the new config
+                    // Record the options to options.data. If the old or the new configuration
                     // is an object, use point options, otherwise use raw options
                     // (#4701, #4916).
                     seriesOptions.data[i] = (
