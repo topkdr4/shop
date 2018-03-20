@@ -10,19 +10,20 @@
 <body class="light-blue lighten-5">
 
 <div class="row container">
-    <form class="card card-panel col s6 offset-s3 small">
+    <form class="card card-panel col s6 offset-s3 small" action="/loginAction" method="post">
         <div class="card-content">
             <span class="card-title center-align">Панель администрирования</span>
             <div class="input-field col s12">
-                <input placeholder="Логин" id="login" class="validate">
+                <input placeholder="Логин" id="login" class="validate" name="username">
             </div>
             <div class="input-field col s12">
-                <input placeholder="Пароль" id="password" class="validate">
+                <input placeholder="Пароль" id="password" class="validate" name="password">
             </div>
         </div>
         <div class="card-action">
             <a href="#">Войти</a>
         </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" style="height: 300px;">Войти СЮДА</button>
     </form>
 </div>
 

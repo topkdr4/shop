@@ -206,7 +206,7 @@
 
         $('.collapsible').collapsible();
 
-        var configuration = {
+        var config = {
             lineNumbers: true,
             mode:        "xml",
             theme:       "eclipse",
@@ -218,6 +218,8 @@
 
         $('.modal').modal({
              dismissible: false,
+             inDuration: 0,
+             outDuration: 0,
              ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
                 console.log(modal, trigger);
                 editor.refresh();

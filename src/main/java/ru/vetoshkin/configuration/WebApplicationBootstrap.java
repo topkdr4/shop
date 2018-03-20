@@ -1,4 +1,4 @@
-package configuration;
+package ru.vetoshkin.configuration;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;

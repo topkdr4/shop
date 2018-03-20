@@ -130,4 +130,24 @@
 <%= request.getAttribute("ebota")%>
 
 </body>
+<script type="text/javascript" src="static/lib/jquery.js"></script>
+<script type="text/javascript" src="static/lib/materialize.js"></script>
+<script type="text/javascript">
+    var $menu = $('#fixed-menu');
+    var $hamburger = $('#hamburger');
+    var $hover = $('.fixed-hover');
+    var $body = $('body');
+
+    function showMenu() {
+        $hover.toggleClass('fixed-nav-hidden');
+        $hamburger.toggleClass('is-active');
+        $menu.toggleClass('fixed-nav-hidden');
+        $body.toggleClass('overflow-hidden');
+    }
+
+    $hamburger.on('click', showMenu);
+    $hover.on('click', showMenu);
+
+    $('.collapsible').collapsible();
+</script>
 </html>
