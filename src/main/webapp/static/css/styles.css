@@ -1,0 +1,8 @@
+#login-page .container {
+    height:                 80%;
+}
+
+#login-page .input-field input:focus:not([readonly]) {
+    border-bottom: 1px solid #0277bd;
+    box-shadow:    0 1px 0 0 #0277bd;
+}
