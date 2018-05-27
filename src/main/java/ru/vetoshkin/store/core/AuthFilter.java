@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutionException;
  * Ветошкин А.В. РИС-16бзу
  * */
 public class AuthFilter implements Filter {
-    private static final String cookieName = "sessionId";
+    public static final String cookieName = "sessionId";
 
 
     @Override
@@ -52,17 +52,14 @@ public class AuthFilter implements Filter {
 
         try {
             Admin admin = SessionService.getAdmin(cookie.getValue());
-            if (admin.getId() != null) {
+            if (admin.getId() != null && requestUri.equals("/admin")) {
                 reqt.getRequestDispatcher("/admin/panel").forward(request, response);
                 return;
             }
 
-            if (requestUri.equals("/admin")) {
-                chain.doFilter(request, response);
-            } else {
-                resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            }
+            chain.doFilter(request, response);
         } catch (ExecutionException e) {
+            e.printStackTrace();
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }

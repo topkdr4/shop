@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Панель управления</title>
+    <title>Категории</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" >
     <link type="text/css" rel="stylesheet" href="../static/css/materialize.css"  media="screen" />
     <link type="text/css" rel="stylesheet" href="../static/css/hamburger.css" />
@@ -66,9 +66,45 @@
     </ul>
 </div>
 
+<main class="row">
+
+    <div class="col s6 offset-s3">
+        <div class="card">
+            <table class="striped centered search-result">
+                <thead>
+                    <tr>
+                        <th></th>
+                         <th>Название категории</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr v-for="item in data">
+                        <td>{{item.id}}</td>
+                        <td>{{item.title}}</td>
+                        <td>
+                            <a class="waves-effect waves-red    btn-flat" @click="remove(item.id)"><i class="material-icons">remove</i></a>
+                            <a class="waves-effect waves-yellow btn-flat" @click="edit(item.id)"><i class="material-icons">edit</i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card pagination"></div>
+        <div>
+            <a class="waves-effect waves-green btn-flat" href="/admin/categories/edit"><i class="material-icons">add</i>Добавить категорию</a>
+        </div>
+    </div>
+</main>
+
 </body>
 
 <script type="text/javascript" src="../static/lib/jquery.js"></script>
+<script type="text/javascript" src="../static/lib/vue.js"></script>
 <script type="text/javascript" src="../static/lib/materialize.js"></script>
+<script type="text/javascript" src="../static/lib/pagination.js"></script>
 <script type="text/javascript" src="../static/pages/admin/panel/main.js"></script>
+<script type="text/javascript" src="../static/pages/admin/panel/categories/list.js"></script>
 </html>

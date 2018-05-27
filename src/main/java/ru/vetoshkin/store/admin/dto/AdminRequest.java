@@ -1,6 +1,7 @@
-package ru.vetoshkin.store.admin;
+package ru.vetoshkin.store.admin.dto;
 import lombok.Getter;
 import lombok.Setter;
+import ru.vetoshkin.store.admin.Admin;
 import ru.vetoshkin.store.core.DataTransferObject;
 
 

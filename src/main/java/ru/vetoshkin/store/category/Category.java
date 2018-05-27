@@ -27,6 +27,10 @@ public class Category implements DataTransferObject<CategoryResponse> {
 
     @Override
     public CategoryResponse transfer() {
-        return null;
+        CategoryResponse result = new CategoryResponse();
+        result.setId(id);
+        result.setTitle(title);
+
+        return result;
     }
 }

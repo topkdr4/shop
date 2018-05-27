@@ -34,16 +34,23 @@ public class CategoryController {
 
 
     @ResponseBody
+    @RequestMapping(value = "/list/count", method = RequestMethod.POST)
+    public SimpleResponse<Long> getPageCount() {
+        return new SimpleResponse<>((CategoryStorage.stream().count() / itemsPerPage) + 1);
+    }
+
+
+    @ResponseBody
     @RequestMapping(value = "/list/{page}", method = RequestMethod.POST)
     public SimpleResponse<List<CategoryResponse>> getPage(@PathVariable(name = "page") int page) {
         int from = (page - 1) * itemsPerPage;
         int to   = page * itemsPerPage;
 
-        List<CategoryResponse> result = CategoryStorage.stream()
+        List<CategoryResponse> searchResult = CategoryStorage.stream()
                 .map(Category::transfer)
-                .collect(Collectors.toList())
-                .subList(from, to);
+                .collect(Collectors.toList());
 
+        List<CategoryResponse> result = searchResult.subList(from, to > searchResult.size() ? searchResult.size() : to);
         return new SimpleResponse<>(result);
     }
 
@@ -57,8 +64,8 @@ public class CategoryController {
 
     @ResponseBody
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public void save(@RequestBody CategoryRequest category) {
-        CategoryStorage.save(category.transfer());
+    public SimpleResponse<Integer> save(@RequestBody CategoryRequest category) {
+        return new SimpleResponse<>(CategoryStorage.save(category.transfer()));
     }
 
 }

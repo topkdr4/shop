@@ -27,6 +27,30 @@ public class MainController {
     }
 
 
+    /**
+     * Категории товара
+     */
+    @RequestMapping(path = "/admin/categories", method = RequestMethod.GET)
+    public String getCategories() {
+        return "admin/panel/categories/list";
+    }
+
+
+    @RequestMapping(path = "/admin/categories/edit", method = RequestMethod.GET)
+    public String editCategories() {
+        return "admin/panel/categories/edit";
+    }
+
+
+    /**
+     * Товар
+     */
+    @RequestMapping(path = "/admin/products", method = RequestMethod.GET)
+    public String getProducts() {
+        return "admin/panel/products";
+    }
+
+
 
     @RequestMapping(path = "/store", method = RequestMethod.GET)
     public String getStore() {
