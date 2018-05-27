@@ -1,6 +1,5 @@
 package ru.vetoshkin.store.core;
 import ru.vetoshkin.store.admin.Admin;
-import ru.vetoshkin.store.admin.dao.AdminService;
 import ru.vetoshkin.store.admin.dao.SessionService;
 import ru.vetoshkin.store.util.ServletUtil;
 
@@ -33,7 +32,7 @@ public class AuthFilter implements Filter {
             ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
 
-        final HttpServletRequest  reqt = (HttpServletRequest) request;
+        final HttpServletRequest reqt = (HttpServletRequest) request;
         final HttpServletResponse resp = (HttpServletResponse) response;
 
         String requestUri = reqt.getRequestURI();
@@ -53,12 +52,16 @@ public class AuthFilter implements Filter {
 
         try {
             Admin admin = SessionService.getAdmin(cookie.getValue());
-            if (admin != null) {
+            if (admin.getId() != null) {
                 reqt.getRequestDispatcher("/admin/panel").forward(request, response);
                 return;
             }
 
-            resp.sendRedirect("/admin");
+            if (requestUri.equals("/admin")) {
+                chain.doFilter(request, response);
+            } else {
+                resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
         } catch (ExecutionException e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }

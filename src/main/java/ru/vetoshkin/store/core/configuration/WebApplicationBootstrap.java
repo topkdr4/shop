@@ -3,10 +3,12 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
+import ru.vetoshkin.store.util.HikariPool;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
+import java.io.IOException;
 
 
 
@@ -20,6 +22,12 @@ public class WebApplicationBootstrap implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
+        try {
+            HikariPool.init();
+        } catch (IOException e) {
+            throw new ServletException(e);
+        }
+
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
 
         context.register(WebConfiguration.class);
