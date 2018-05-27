@@ -1,11 +1,13 @@
 package ru.vetoshkin.store.product.rest;
 
-import com.google.common.cache.LoadingCache;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.vetoshkin.store.category.Category;
+import ru.vetoshkin.store.category.dao.CategoryStorage;
+import ru.vetoshkin.store.category.dto.CategoryResponse;
 import ru.vetoshkin.store.core.SimpleResponse;
 import ru.vetoshkin.store.product.Product;
 import ru.vetoshkin.store.product.ProductNotFound;
@@ -16,11 +18,9 @@ import ru.vetoshkin.store.product.dto.ProductResponse;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ThreadLocalRandom;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 
@@ -32,6 +32,8 @@ import java.util.concurrent.ThreadLocalRandom;
 @RestController
 @RequestMapping(value = "/product")
 public class ProductController {
+    private static final int itemsPerPage = 20;
+
 
     @ResponseBody
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
@@ -74,8 +76,28 @@ public class ProductController {
     }
 
 
-    public static void main(String[] args) {
+    @ResponseBody
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    public SimpleResponse<List<CategoryResponse>> getAll() {
+        List<CategoryResponse> result = CategoryStorage.stream()
+                .map(Category::transfer)
+                .collect(Collectors.toList());
 
+        return new SimpleResponse<>(result);
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/list/count", method = RequestMethod.POST)
+    public SimpleResponse<Long> getPageCount() {
+        return new SimpleResponse<>(1l);
+    }
+
+
+    @RequestMapping(value = "/upload", method = RequestMethod.POST,  consumes = "multipart/form-data")
+    public void uploadXml(@RequestParam("file") MultipartFile uploadFile) throws IOException {
+        String result = new String(uploadFile.getBytes(), StandardCharsets.UTF_8);
+        System.out.println(result);
     }
 
 }

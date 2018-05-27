@@ -47,11 +47,20 @@ public class MainController {
      */
     @RequestMapping(path = "/admin/products", method = RequestMethod.GET)
     public String getProducts() {
-        return "admin/panel/products";
+        return "admin/panel/products/list";
+    }
+
+
+    @RequestMapping(path = "/admin/products/edit", method = RequestMethod.GET)
+    public String editProducts() {
+        return "admin/panel/products/edit";
     }
 
 
 
+    /**
+     * Основной магазин
+     */
     @RequestMapping(path = "/store", method = RequestMethod.GET)
     public String getStore() {
         return "welcome";
