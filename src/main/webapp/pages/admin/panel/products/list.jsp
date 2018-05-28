@@ -67,9 +67,16 @@
 
 <main class="row">
 
-    <div class="col s6 offset-s3">
-        <div class="card">
-            <table class="striped centered search-result">
+    <div class="row">
+        <div class="card col s6 offset-s3">
+            <div class="input-field col s12 categories">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s6 offset-s3 card">
+            <table class="striped centered search-result col s12">
                 <thead>
                 <tr>
                     <th>Артикул</th>
@@ -90,16 +97,18 @@
                 </tbody>
             </table>
         </div>
-
-        <div class="card pagination"></div>
-        <div>
-            <a class="waves-effect waves-green btn-flat" href="/admin/categories/edit"><i class="material-icons">add</i>Добавить товар</a>
-            <a class="waves-effect waves-green btn-flat xml-wrap" href="javascript:;"><i class="material-icons">file_upload</i>Загрузить xml</a>
-            <form action="POST" enctype="multipart/form-data" id="xml-upload">
-                <input class="xml-file" type="file" hidden  accept="text/xml" name="file" />
-            </form>
+        <div class="col s6 offset-s3 card">
+            <div class="card pagination"></div>
+            <div>
+                <a class="waves-effect waves-green btn-flat" href="/admin/products/edit"><i class="material-icons">add</i>Добавить товар</a>
+                <a class="waves-effect waves-green btn-flat xml-wrap" href="javascript:;"><i class="material-icons">file_upload</i>Загрузить xml</a>
+                <form action="POST" enctype="multipart/form-data" id="xml-upload">
+                    <input class="xml-file" type="file" hidden  accept="text/xml" name="file" />
+                </form>
+            </div>
         </div>
     </div>
+
 </main>
 </body>
 <script type="text/javascript" src="../static/lib/jquery.js"></script>

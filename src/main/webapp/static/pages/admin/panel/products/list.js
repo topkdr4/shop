@@ -1,9 +1,10 @@
 (function() {
     "use strict";
+
     Vue.component('paginate', VuejsPaginate);
 
     $.ajax({
-        url:  '/category/list/count',
+        url:  '/product/list/count',
         type: 'POST',
         contentType: "application/json; charset=utf-8",
         success: function(data) {
@@ -36,7 +37,7 @@
             },
             remove: function(id) {
                 $.ajax({
-                    url:  '/category/remove/' + id,
+                    url:  '/product/remove/' + id,
                     type: 'POST',
                     success: function() {
                         window.location.reload(true);
@@ -44,7 +45,7 @@
                 });
             },
             edit: function(id) {
-                window.location.href="/admin/categories/edit?id=" + id;
+                window.location.href="/admin/products/edit?id=" + id;
             }
         }
     });
@@ -52,7 +53,7 @@
 
     function getItems(page) {
         $.ajax({
-            url:  '/category/list/' + page,
+            url:  '/products/list/' + page,
             type: 'POST',
             success: function(data) {
                 table.setData(data.result);
@@ -89,6 +90,23 @@
                 console.log(arguments)
             }
         });
+    });
+
+    $.ajax({
+        url: '/category/list',
+        type: 'POST',
+        success: function(data) {
+            var html = '';
+            html += '<select class="selected-category">';
+            data.result.forEach(function(item) {
+                html += '<option value="' + item.id + '">' + item.title + '</option>';
+            });
+            html += '</select>';
+
+            $('.categories').html(html);
+            $('.selected-category').material_select();
+
+        }
     });
 
 })();
