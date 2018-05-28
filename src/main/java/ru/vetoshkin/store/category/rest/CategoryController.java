@@ -5,7 +5,6 @@ import ru.vetoshkin.store.category.dao.CategoryStorage;
 import ru.vetoshkin.store.category.dto.CategoryRequest;
 import ru.vetoshkin.store.category.dto.CategoryResponse;
 import ru.vetoshkin.store.core.SimpleResponse;
-import ru.vetoshkin.store.product.dto.ProductRequest;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +21,10 @@ import java.util.stream.Collectors;
 public class CategoryController {
     private static final int itemsPerPage = 20;
 
+
+    /**
+     * Список категорий
+     */
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public SimpleResponse<List<CategoryResponse>> getAll() {
@@ -33,6 +36,9 @@ public class CategoryController {
     }
 
 
+    /**
+     * Кол-во страниц
+     */
     @ResponseBody
     @RequestMapping(value = "/list/count", method = RequestMethod.POST)
     public SimpleResponse<Long> getPageCount() {
@@ -40,6 +46,9 @@ public class CategoryController {
     }
 
 
+    /**
+     * Получить элементы на страницу
+     */
     @ResponseBody
     @RequestMapping(value = "/list/{page}", method = RequestMethod.POST)
     public SimpleResponse<List<CategoryResponse>> getPage(@PathVariable(name = "page") int page) {
@@ -55,6 +64,9 @@ public class CategoryController {
     }
 
 
+    /**
+     * Удалить категорию
+     */
     @ResponseBody
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.POST)
     public void remove(@PathVariable(name = "id") int id) {
@@ -62,6 +74,9 @@ public class CategoryController {
     }
 
 
+    /**
+     * Сохранить категорию
+     */
     @ResponseBody
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public SimpleResponse<Integer> save(@RequestBody CategoryRequest category) {

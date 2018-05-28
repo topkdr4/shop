@@ -3,16 +3,11 @@ import lombok.Getter;
 import org.springframework.stereotype.Service;
 import ru.vetoshkin.store.core.Initialize;
 import ru.vetoshkin.store.product.Product;
-import ru.vetoshkin.store.product.Products;
-import ru.vetoshkin.store.util.HikariPool;
+import ru.vetoshkin.store.product.XmlProduct;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -51,7 +46,9 @@ public class ProductService {
                             }
                         }
 
-                        ImageStorage.save(baos.toByteArray());
+                        int imageId = ImageStorage.save(baos.toByteArray());
+                        ProductStorage.save(holder.getProduct());
+                        ProductStorage.saveImage(holder.getProduct().getId(), holder.getIndex(), imageId);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -62,46 +59,29 @@ public class ProductService {
 
 
 
-    public static void add(List<Product> products) {
-        for (Product product : products) {
-            for (String url : product.getImages()) {
-                queue.offer(new Holder(product.getId(), url));
+    public static void add(List<XmlProduct> products) {
+        for (XmlProduct product : products) {
+            for (int i = 0; i < product.getImages().size(); i++) {
+                queue.offer(new Holder(product.transfer(), product.getImages().get(i), i + 1));
             }
         }
     }
 
 
-/*    public static void main(String[] args) throws Exception {
-        HikariPool.init();
-        init();
-
-        JAXBContext jaxbContext = JAXBContext.newInstance(Products.class);
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-        Products from = (Products) unmarshaller.unmarshal(Files.newBufferedReader(Paths.get("C:\\Users\\Александр\\Desktop\\4 семестр\\shop\\shop\\src\\main\\resources\\o.xml")));
-        add(from.getProducts());
-
-        Thread.sleep(1000000);
-    }*/
-
-
-
 
     @Getter
     private static class Holder {
-        private final String code;
+        private final Product product;
         private final String url;
+        private final int    index;
 
 
-        private Holder(String code, String url) {
-            this.code = code;
-            this.url = url;
+        private Holder(Product product, String url, int index) {
+            this.product  = product;
+            this.url      = url;
+            this.index    = index;
         }
 
-
-        @Override
-        public String toString() {
-            return code;
-        }
     }
 
 }

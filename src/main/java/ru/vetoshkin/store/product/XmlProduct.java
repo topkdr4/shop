@@ -1,8 +1,10 @@
-package ru.vetoshkin.store.product.dto;
+package ru.vetoshkin.store.product;
 import lombok.Getter;
 import lombok.Setter;
 import ru.vetoshkin.store.core.DataTransferObject;
-import ru.vetoshkin.store.product.Product;
+
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 
 
@@ -13,7 +15,8 @@ import ru.vetoshkin.store.product.Product;
  * */
 @Getter
 @Setter
-public class ProductRequest implements DataTransferObject<Product> {
+@XmlRootElement
+public class XmlProduct implements DataTransferObject<Product> {
     /**
      * Идентификатор
      */
@@ -33,6 +36,11 @@ public class ProductRequest implements DataTransferObject<Product> {
      * Категория
      */
     private int category;
+
+    /**
+     * Изображения
+     */
+    private List<String> images;
 
 
     @Override

@@ -18,6 +18,6 @@ import java.util.List;
 @Setter
 @XmlRootElement()
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Products {
-    private List<Product> products;
+public class XmlProducts {
+    private List<XmlProduct> products;
 }

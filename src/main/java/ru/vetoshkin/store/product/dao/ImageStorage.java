@@ -17,18 +17,18 @@ import java.util.concurrent.TimeUnit;
  * Ветошкин А.В. РИС-16бзу
  * */
 public class ImageStorage {
-    private static final LoadingCache<String, byte[]> images = CacheBuilder.newBuilder()
+    private static final LoadingCache<Integer, byte[]> images = CacheBuilder.newBuilder()
             .maximumSize(1000)
             .expireAfterWrite(10, TimeUnit.MINUTES)
-            .build(new CacheLoader<String, byte[]>() {
+            .build(new CacheLoader<Integer, byte[]>() {
                 @Override
-                public byte[] load(String key) throws Exception {
+                public byte[] load(Integer key) throws Exception {
                     try (Connection connection =  HikariPool.getSource().getConnection()) {
                         connection.setAutoCommit(false);
 
                         CallableStatement statement = connection.prepareCall("{? = call public.get_image(?)}");
                         statement.registerOutParameter(1, Types.OTHER);
-                        statement.setInt(2, Integer.parseInt(key));
+                        statement.setInt(2, key);
 
                         statement.execute();
 
@@ -43,17 +43,17 @@ public class ImageStorage {
             });
 
 
-    public static byte[] getImage(String id) throws ExecutionException {
+    public static byte[] getImage(int id) throws ExecutionException {
         return images.get(id);
     }
 
 
-    public static void save(byte[] image) throws SQLException {
-        saveToStorage(image);
+    public static int save(byte[] image) throws SQLException {
+        return saveToStorage(image);
     }
 
 
-    private static void saveToStorage(byte[] image) throws SQLException {
+    private static int saveToStorage(byte[] image) throws SQLException {
         try (Connection connection = HikariPool.getSource().getConnection()) {
             String method = "{? = call public.save_image(?)}";
             CallableStatement statement = connection.prepareCall(method);
@@ -61,9 +61,12 @@ public class ImageStorage {
             statement.setBytes(2, image);
 
             statement.execute();
-            int id = statement.getInt(1);
-            System.out.println(id);
+            return statement.getInt(1);
         }
     }
 
+
+    public static void remove(int imageIndex) {
+        images.invalidate(imageIndex);
+    }
 }

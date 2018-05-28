@@ -1,15 +1,13 @@
 package ru.vetoshkin.store.category.dao;
 import org.springframework.stereotype.Service;
-import ru.vetoshkin.store.admin.Admin;
-import ru.vetoshkin.store.admin.AdminAuth;
 import ru.vetoshkin.store.category.Category;
 import ru.vetoshkin.store.core.Initialize;
 import ru.vetoshkin.store.util.HikariPool;
 
 import java.sql.*;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 
@@ -49,11 +47,23 @@ public class CategoryStorage {
     }
 
 
+    /**
+     * Стрим объектов
+     */
     public static Stream<Category> stream() {
         return categories.values().stream();
     }
 
 
+
+    public static Collection<Category> getAll() {
+        return categories.values();
+    }
+
+
+    /**
+     * Сохранить категорию
+     */
     public static int save(Category category) {
         try (Connection connection = HikariPool.getSource().getConnection()) {
 

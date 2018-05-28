@@ -43,7 +43,7 @@ public class Product implements DataTransferObject<ProductResponse> {
     /**
      * Изображения
      */
-    private List<String> images;
+    private List<Integer> images;
 
 
 

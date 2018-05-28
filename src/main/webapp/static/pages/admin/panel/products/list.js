@@ -150,7 +150,7 @@
             cache: false,
             timeout: 600000,
             success: function () {
-                console.log(arguments)
+                window.location.reload(true);
             },
             error: function () {
                 console.log(arguments)

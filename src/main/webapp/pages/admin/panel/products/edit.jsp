@@ -1,22 +1,29 @@
-<%@ page import="ru.vetoshkin.store.product.dao.ProductStorage" %>
+<%@ page import="ru.vetoshkin.store.category.Category" %>
+<%@ page import="ru.vetoshkin.store.category.dao.CategoryStorage" %>
 <%@ page import="ru.vetoshkin.store.product.Product" %>
+<%@ page import="ru.vetoshkin.store.product.dao.ProductStorage" %>
+<%@ page import="ru.vetoshkin.store.util.Json" %>
+<%@ page import="java.util.Collection" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" >
-    <link type="text/css" rel="stylesheet" href="../static/css/materialize.css"  media="screen" />
-    <link type="text/css" rel="stylesheet" href="../static/css/hamburger.css" />
-    <link type="text/css" rel="stylesheet" href="../static/css/styles.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="../../static/css/materialize.css" media="screen"/>
+    <link type="text/css" rel="stylesheet" href="../../static/css/hamburger.css"/>
+    <link type="text/css" rel="stylesheet" href="../../static/css/styles.css"/>
     <%
         String stringId = pageContext.getRequest().getParameter("id");
-        Product product = ProductStorage.get(stringId != null ? Integer.parseInt(stringId) : -1);
+        Product product = ProductStorage.get(stringId != null ? stringId : "");
+
+        Collection<Category> categoryList = CategoryStorage.getAll();
     %>
-    <title><%=product != null ? product.getTitle() : "Новая категория"%></title>
+    <title><%=product != null ? product.getTitle() : "Новая категория"%>
+    </title>
 </head>
 <body class="grey lighten-5">
 
-<div class="fixed-hover fixed-nav-hidden" ></div>
+<div class="fixed-hover fixed-nav-hidden"></div>
 <div class="navbar-fixed z-depth-1">
     <nav class="light-blue darken-3">
         <div class="nav-wrapper">
@@ -69,13 +76,105 @@
 </div>
 
 <main class="row">
+    <div class="col s6 offset-l3">
+        <div class="row">
+            <div class="col s12">
+                <div class="card product">
+                    <div class="card-content">
+                        <span class="card-title">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input placeholder="Артикул" class="code" type="text" v-model="id" />
+                                </div>
+                            </div>
+                        </span>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input placeholder="Наименование" class="title" type="text" v-model="title" />
+                            </div>
+                            <div class="input-field col s12">
+                                <textarea class="materialize-textarea description" v-model="description"></textarea>
+                            </div>
+                            <div class="input-field col s12">
+                                <select class="categories">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" v-show="!isNew">
+                            <div class="col s4">
+                                <div class="card small">
+                                    <div class="card-image waves-effect waves-block waves-light">
+                                        <img class="activator" :src="firstImage" v-show="firstImage">
+                                    </div>
+                                    <div class="card-content">
+                                        <span class="card-title activator grey-text text-darken-4">Изображение 1<i class="material-icons right">more_vert</i></span>
+                                    </div>
+                                    <div class="card-reveal">
+                                        <span class="card-title grey-text text-darken-4">Изображение 1<i class="material-icons right">close</i></span>
+                                        <p>
+                                            <a class="waves-effect waves-light btn green accent-4"  v-show="!firstImage" @click="uploadImage(1)"><i class="material-icons right">file_upload</i>Загрузить</a>
+                                            <a class="waves-effect waves-light btn materialize-red" v-show="firstImage"  @click="removeImage(1)"><i class="material-icons right">delete_forever</i>Удалить</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s4">
+                                <div class="card small">
+                                    <div class="card-image waves-effect waves-block waves-light">
+                                        <img class="activator" :src="secondImage" v-show="secondImage">
+                                    </div>
+                                    <div class="card-content">
+                                        <span class="card-title activator grey-text text-darken-4">Изображение 2<i class="material-icons right">more_vert</i></span>
+                                    </div>
+                                    <div class="card-reveal">
+                                        <span class="card-title grey-text text-darken-4">Изображение 2<i class="material-icons right">close</i></span>
+                                        <p>
+                                            <a class="waves-effect waves-light btn green accent-4"  v-show="!secondImage" @click="uploadImage(2)"><i class="material-icons right">file_upload</i>Загрузить</a>
+                                            <a class="waves-effect waves-light btn materialize-red" v-show="secondImage"  @click="removeImage(2)"><i class="material-icons right">delete_forever</i>Удалить</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s4">
+                                <div class="card small">
+                                    <div class="card-image waves-effect waves-block waves-light">
+                                        <img class="activator" :src="thirdImage" v-show="thirdImage">
+                                    </div>
+                                    <div class="card-content">
+                                        <span class="card-title activator grey-text text-darken-4">Изображение 3<i class="material-icons right">more_vert</i></span>
+                                    </div>
+                                    <div class="card-reveal">
+                                        <span class="card-title grey-text text-darken-4">Изображение 3<i class="material-icons right">close</i></span>
+                                        <p>
+                                            <a class="waves-effect waves-light btn green accent-4"  v-show="!thirdImage" @click="uploadImage(3)"><i class="material-icons right">file_upload</i>Загрузить</a>
+                                            <a class="waves-effect waves-light btn materialize-red" v-show="thirdImage"  @click="removeImage(3)"><i class="material-icons right">delete_forever</i>Удалить</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <a href="javascript:;" @click="save()">Сохарнить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
+<form action="POST" enctype="multipart/form-data" id="image-upload" style="display: none">
+    <input class="file-image" type="file" hidden  accept="image/x-png,image/jpeg" name="image" />
+</form>
 
 </body>
-<script type="text/javascript" src="../static/lib/jquery.js"></script>
-<script type="text/javascript" src="../static/lib/vue.js"></script>
-<script type="text/javascript" src="../static/lib/materialize.js"></script>
-<script type="text/javascript" src="../static/lib/pagination.js"></script>
-<script type="text/javascript" src="../static/pages/admin/panel/main.js"></script>
-<script type="text/javascript" src="../static/pages/admin/panel/products/edit.js"></script>
+<script type="text/javascript" src="../../static/lib/jquery.js"></script>
+<script type="text/javascript" src="../../static/lib/vue.js"></script>
+<script type="text/javascript" src="../../static/lib/materialize.js"></script>
+<script type="text/javascript" src="../../static/lib/pagination.js"></script>
+<script type="text/javascript" src="../../static/pages/admin/panel/main.js"></script>
+<script type="text/javascript">
+    window.currentState = <%=Json.toJson(product)%>;
+    window.categoryList = <%=Json.toJson(categoryList)%>;
+</script>
+<script type="text/javascript" src="../../static/pages/admin/panel/products/edit.js"></script>
 </html>
