@@ -49,6 +49,10 @@ public class Product implements DataTransferObject<ProductResponse> {
 
     @Override
     public ProductResponse transfer() {
-        return null;
+        ProductResponse result = new ProductResponse();
+        result.setId(id);
+        result.setTitle(title);
+        
+        return result;
     }
 }

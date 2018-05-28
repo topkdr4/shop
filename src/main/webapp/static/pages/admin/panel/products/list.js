@@ -3,29 +3,30 @@
 
     Vue.component('paginate', VuejsPaginate);
 
-    $.ajax({
-        url:  '/product/list/count',
-        type: 'POST',
-        contentType: "application/json; charset=utf-8",
-        success: function(data) {
-            var template = '';
-            template += '<paginate ';
-            template +=     ':pageCount="' + data.result + '" ';
-            template +=     ':containerClass="\'pagination\'" ';
-            template +=     ':clickHandler="clickCallback" />';
+    var pagination = window.pag = new Vue({
+        el: '.pagination',
+        template: '<paginate :pageCount="pages" :containerClass="\'pagination\'" :clickHandler="clickCallback" />',
+        methods: {
+            clickCallback: function(page) {
+                if (page == 0)
+                    return;
 
-            var pagination = new Vue({
-                el: '.pagination',
-                template: template,
-                methods: {
-                    clickCallback: getItems
-                }
-            });
-
-            getItems(1);
+                getProductByCategory($categoriesList.val(), page);
+            },
+            setPageCount: function(count) {
+                this.pages = count;
+                this.$children[0].selectFirstPage();
+            }
+        },
+        data: {
+            pages: 1
         }
     });
 
+
+    /**
+     * Таблица результата
+     */
     var table = new Vue({
         el: '.search-result',
         data: {
@@ -51,9 +52,64 @@
     });
 
 
-    function getItems(page) {
+
+    var $categoriesList = $('.selected-category');
+    $categoriesList.on('change', productListInit);
+
+
+    /**
+     * Инициализация списка категорий
+     */
+    function productListInit() {
+        var category = $categoriesList.val();
+        getPageForCategory(category, function(data) {
+            pagination.setPageCount(data.result);
+            getProductByCategory(category, 1);
+        });
+    }
+
+
+    /**
+     * Заполнить селект списком категорий
+     */
+    $.ajax({
+        url: '/category/list',
+        type: 'POST',
+        success: function(data) {
+
+            data.result.forEach(function(item) {
+                $categoriesList.append($('<option></option>', {
+                    value: item.id,
+                    text:  item.title
+                }));
+            });
+
+            productListInit();
+
+            $('select').material_select();
+        }
+    });
+
+
+
+    /**
+     * Получить кол-во страниц для категории
+     */
+    function getPageForCategory(category, callback) {
         $.ajax({
-            url:  '/products/list/' + page,
+            url: '/product/list/' + category + '/count',
+            type: 'POST',
+            success: callback
+        });
+    }
+
+
+    /**
+     * Получить данные по категории + странице
+     */
+    function getProductByCategory(category, page) {
+        $.ajax({
+            url:  '/product/list/' + category + '/' + page,
             type: 'POST',
             success: function(data) {
                 table.setData(data.result);
@@ -61,6 +117,16 @@
         });
     }
 
+
+})();
+
+
+
+/**
+ * Загрузка xml на сервер
+ */
+(function() {
+    "use strict";
 
     $('.xml-wrap').on('click', function () {
         $('.xml-file').click();
@@ -91,22 +157,4 @@
             }
         });
     });
-
-    $.ajax({
-        url: '/category/list',
-        type: 'POST',
-        success: function(data) {
-            var html = '';
-            html += '<select class="selected-category">';
-            data.result.forEach(function(item) {
-                html += '<option value="' + item.id + '">' + item.title + '</option>';
-            });
-            html += '</select>';
-
-            $('.categories').html(html);
-            $('.selected-category').material_select();
-
-        }
-    });
-
 })();

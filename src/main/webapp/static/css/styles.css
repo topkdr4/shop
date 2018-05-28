@@ -56,3 +56,14 @@
 .sub-menu-item {
     padding:     0;
 }
+
+
+.progress {
+    margin: 0;
+    background-color: #FCB821;
+    height: 8px;
+}
+
+.progress .indeterminate {
+    background-color: #BF1773;
+}

@@ -70,6 +70,8 @@
     <div class="row">
         <div class="card col s6 offset-s3">
             <div class="input-field col s12 categories">
+                <select class="selected-category">
+                </select>
             </div>
         </div>
     </div>

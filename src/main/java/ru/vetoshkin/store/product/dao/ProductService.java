@@ -71,7 +71,7 @@ public class ProductService {
     }
 
 
-    public static void main(String[] args) throws Exception {
+/*    public static void main(String[] args) throws Exception {
         HikariPool.init();
         init();
 
@@ -81,7 +81,7 @@ public class ProductService {
         add(from.getProducts());
 
         Thread.sleep(1000000);
-    }
+    }*/
 
 
 

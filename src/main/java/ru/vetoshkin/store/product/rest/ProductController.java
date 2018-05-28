@@ -22,7 +22,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Types;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,17 +40,6 @@ import java.util.stream.Collectors;
 public class ProductController {
     private static final int itemsPerPage = 20;
 
-
-    @ResponseBody
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-    public SimpleResponse<ProductResponse> getProduct(@PathVariable(name = "id") int productID) throws ProductNotFound {
-        Product product = ProductStorage.get(productID);
-
-        if (product == null)
-            throw new ProductNotFound(String.valueOf(productID));
-
-        return new SimpleResponse<>(product.transfer());
-    }
 
 
     @ResponseBody
@@ -80,24 +71,9 @@ public class ProductController {
     }
 
 
-/*    @ResponseBody
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public SimpleResponse<List<CategoryResponse>> getAll() {
-        List<CategoryResponse> result = CategoryStorage.stream()
-                .map(Category::transfer)
-                .collect(Collectors.toList());
-
-        return new SimpleResponse<>(result);
-    }*/
-
-
-    @ResponseBody
-    @RequestMapping(value = "/list/count", method = RequestMethod.POST)
-    public SimpleResponse<Long> getPageCount() {
-        return new SimpleResponse<>(1l);
-    }
-
-
+    /**
+     * Загрузка xml
+     */
     @RequestMapping(value = "/upload", method = RequestMethod.POST,  consumes = "multipart/form-data")
     public void uploadXml(@RequestParam("file") MultipartFile uploadFile) throws IOException {
         String result = new String(uploadFile.getBytes(), StandardCharsets.UTF_8);
@@ -109,11 +85,16 @@ public class ProductController {
      * Получить список товаров по категории и заданной странице
      */
     @RequestMapping(value = "/list/{category}/{page}", method = RequestMethod.POST)
-    public static SimpleResponse<List<Product>> getProductOnCategory(
+    public static SimpleResponse<List<ProductResponse>> getProductOnCategory(
             @PathVariable(name = "category") int category,
             @PathVariable(name = "page") int page
     ) {
-        return new SimpleResponse<>(null);
+        List<ProductResponse> result = ProductStorage.getProduct(page, category)
+                .stream()
+                .map(Product::transfer)
+                .collect(Collectors.toList());
+
+        return new SimpleResponse<>(result);
     }
 
 
@@ -124,14 +105,24 @@ public class ProductController {
     public static SimpleResponse<Long> getPageCountOnCategory(
             @PathVariable(name = "category") int category
     ) throws Exception {
-        long result;
+        long result = 0;
+        long items  = 0;
+
         try (Connection connection = HikariPool.getSource().getConnection()) {
-            CallableStatement statement = connection.prepareCall("{? = call public.get_page_count_by_category(?)}");
-            statement.registerOutParameter(1, Types.BIGINT);
+            connection.setAutoCommit(false);
+
+            CallableStatement statement = connection.prepareCall("{? = call public.get_product_count(?)}");
+            statement.registerOutParameter(1, Types.OTHER);
             statement.setInt(2, category);
 
             statement.execute();
-            result = statement.getLong(1);
+
+            ResultSet set = (ResultSet) statement.getObject(1);
+            if (set.next()) {
+                items = set.getLong(1);
+            }
+
+            result = (items / itemsPerPage) + 1;
         }
 
         return new SimpleResponse<>(result);
