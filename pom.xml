@@ -19,11 +19,14 @@
         <resteasy.version>3.1.4.Final</resteasy.version>
         <spring-framework-version>5.0.2.RELEASE</spring-framework-version>
         <jstl.version>1.2</jstl.version>
+        <lombok>1.16.20</lombok>
     </properties>
 
 
     <dependencies>
 
+        <!-- - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- JACKSON -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -42,9 +45,8 @@
             <version>${jackson-version}</version>
         </dependency>
 
-
         <!-- - - - - - - - - - - - - - - - - - - - - - -->
-
+        <!-- LOGGING -->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
@@ -64,7 +66,7 @@
         </dependency>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - -->
-
+        <!-- DB DRIVER -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -73,7 +75,7 @@
 
 
         <!-- - - - - - - - - - - - - - - - - - - - - - -->
-
+        <!-- DB POOL -->
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
@@ -81,7 +83,7 @@
         </dependency>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - -->
-
+        <!-- SPRING -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -106,26 +108,8 @@
             <version>${spring-framework-version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>${spring-framework-version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>${spring-framework-version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>${spring-framework-version}</version>
-        </dependency>
-
         <!-- - - - - - - - - - - - - - - - - - - - - - -->
-
+        <!-- SERVLETS -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -138,6 +122,22 @@
             <artifactId>javax.servlet.jsp-api</artifactId>
             <version>2.3.1</version>
         </dependency>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- OTHER -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>25.0-jre</version>
+        </dependency>
+
 
     </dependencies>
 

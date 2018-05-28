@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<products>
+    <products>
+        <category>3</category>
+        <description>desc</description>
+        <id>123</id>
+        <images>https://avatars.mds.yandex.net/get-pdb/770122/61ccae44-613a-4be3-b340-77a3dfc4f30b/s1200</images>
+        <images>https://avatars.mds.yandex.net/get-pdb/231404/08559790-2eed-4033-b2ed-6c192da6e245/s1200</images>
+        <images>https://avatars.mds.yandex.net/get-pdb/776003/04004085-1be5-4c89-84c2-eb139bf8637a/s1200</images>
+        <title>Велосипед</title>
+    </products>
+    <products>
+        <category>3</category>
+        <description>desc</description>
+        <id>123</id>
+        <images>https://avatars.mds.yandex.net/get-pdb/805781/c8cb2c74-5733-41d9-99c7-451b10927bef/s1200</images>
+        <images>https://avatars.mds.yandex.net/get-pdb/27625/c3898210-1e14-4de0-b763-b6a5474f59ea/s1200</images>
+        <images>https://avatars.mds.yandex.net/get-pdb/881477/1da12af1-1bfe-4e0d-b1fd-00469b1aa729/s1200</images>
+        <title>Велосипед</title>
+    </products>
+    <products>
+        <category>3</category>
+        <description>desc</description>
+        <id>123</id>
+        <images>https://avatars.mds.yandex.net/get-pdb/70729/825b386f-3c21-434d-9df2-5fef2b7b6dc2/s1200</images>
+        <images>https://avatars.mds.yandex.net/get-pdb/477388/93026b0f-5fea-4793-bdc8-fe592d09c165/s1200</images>
+        <images>https://avatars.mds.yandex.net/get-pdb/963327/27179d5c-9700-4850-b945-1c19cd772bc9/s1200</images>
+        <title>Велосипед</title>
+    </products>
+</products>
