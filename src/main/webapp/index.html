@@ -123,10 +123,16 @@
 
         <script type="text/javascript">
             $(".dropdown-button").dropdown();
-            $('.carousel.carousel-slider').carousel({
+            var a = $('.carousel.carousel-slider');
+            a.carousel({
                 dist: 0,
-                fullWidth: true
+                fullWidth: true,
+                duration:  200
             });
+
+            var intervalId = setInterval(function() {
+                a.carousel('next', 1);
+            }, 3000)
         </script>
     </body>
 </html>
