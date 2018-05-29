@@ -85,6 +85,8 @@ public class ProductStorage {
             statement.setFloat(5,  product.getPrice());
 
             statement.execute();
+
+            PriceService.setPrice(product.getId(), product.getPrice());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

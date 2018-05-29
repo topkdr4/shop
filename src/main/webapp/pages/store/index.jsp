@@ -2,6 +2,9 @@
 <%@ page import="ru.vetoshkin.store.category.dao.CategoryStorage" %>
 <%@ page import="ru.vetoshkin.store.settings.Settings" %>
 <%@ page import="java.util.Collection" %>
+<%@ page import="ru.vetoshkin.store.util.Json" %>
+<%@ page import="ru.vetoshkin.store.product.dao.PriceService" %>
+<%@ page import="java.util.Map" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,10 +12,13 @@
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="../static/css/materialize.css" media="screen"/>
+    <link type="text/css" rel="stylesheet" href="../static/css/styles.css" />
 
     <%
         Settings settings = Settings.getInstance();
         Collection<Category> categoryList = CategoryStorage.getAll();
+        Map<String, Float> allPrices = PriceService.getALlPrice();
+        Map<String, String> allTitles = PriceService.getAllTitles();
     %>
 
     <title><%= settings.getTitle()%></title>
@@ -28,7 +34,7 @@
 
             <ul class="right hide-on-med-and-down">
                 <li><i class="material-icons left">local_phone</i><b>8-800-00-00-000</b> (с 05:00 до 00:00)</li>
-                <li><a href="javascript:;"><i class="material-icons left">shopping_cart</i>0 ₽</a></li>
+                <li><a href="javascript:;" class="basket basket-ico" @click="open()"><i class="material-icons left">shopping_cart</i>{{sum}} ₽</a></li>
             </ul>
         </div>
     </nav>
@@ -42,7 +48,7 @@
         <div class="collection">
             <%
                 for (Category category : categoryList) {
-                    out.println("<a href=\"/store/product/list?category=" + category.getId() + "\" class=\"collection-item light-blue-text text-darken-3\">" + category.getTitle() + "</a>");
+                    out.println("<a href=\"/store/product/list?category=" + category.getId() + "\" class=\"collection-item light-blue-text text-darken-3 large-text\">" + category.getTitle() + "</a>");
                 }
             %>
         </div>
@@ -135,6 +141,7 @@
 
 </main>
 
+<div class="modal-basket"></div>
 
 <footer class="page-footer grey darken-1">
     <div class="footer-copyright">
@@ -148,6 +155,13 @@
 
 <script type="text/javascript" src="../static/lib/jquery.js"></script>
 <script type="text/javascript" src="../static/lib/materialize.js"></script>
+<script type="text/javascript" src="../static/lib/vue.js"></script>
+<script type="text/javascript">
+    window.allPrices = <%= Json.toJson(allPrices)%>;
+    window.allTitles = <%= Json.toJson(allTitles)%>;
+</script>
 <script type="text/javascript" src="../static/pages/store/index.js"></script>
+<script type="text/javascript" src="../static/pages/store/cookie-util.js"></script>
+<script type="text/javascript" src="../static/pages/store/basket.js"></script>
 </body>
 </html>

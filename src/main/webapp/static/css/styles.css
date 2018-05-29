@@ -58,12 +58,10 @@
 }
 
 
-.progress {
-    margin: 0;
-    background-color: #FCB821;
-    height: 8px;
+.large-text {
+    font-size: 18px;
 }
 
-.progress .indeterminate {
-    background-color: #BF1773;
+.img-container {
+
 }

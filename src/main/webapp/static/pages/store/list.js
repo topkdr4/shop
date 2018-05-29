@@ -28,6 +28,14 @@
             },
             more: function(id) {
                 window.location.href = '/store/product?id=' + id;
+            },
+            add: function (code) {
+                var array = JSON.parse(getCookie('basket') || '[]');
+                if (!array.includes(code))
+                    array.push(code);
+
+                setCookie('basket', JSON.stringify(array));
+                bascket.recalc();
             }
         }
     });
