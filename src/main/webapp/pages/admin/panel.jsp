@@ -59,7 +59,7 @@
                     <i class="material-icons">web</i><a href="#!">Шаблоны</a>
                 </li>
                 <li class="collection-item valign-wrapper lvl-1">
-                    <i class="material-icons">tune</i><a href="#!">Основное</a>
+                    <i class="material-icons">tune</i><a href="/admin/settings/edit">Основное</a>
                 </li>
             </ul>
         </li>

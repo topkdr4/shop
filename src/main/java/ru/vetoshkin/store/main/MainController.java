@@ -57,13 +57,18 @@ public class MainController {
     }
 
 
+    @RequestMapping(path = "/admin/settings/edit", method = RequestMethod.GET)
+    public String editSettings() {
+        return "admin/panel/settings/edit";
+    }
+
 
     /**
      * Основной магазин
      */
     @RequestMapping(path = "/store", method = RequestMethod.GET)
     public String getStore() {
-        return "welcome";
+        return "store/store";
     }
 
 }
