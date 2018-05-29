@@ -1,66 +1,40 @@
 /*
- Navicat Premium Data Transfer
+Navicat PGSQL Data Transfer
 
- Source Server         : store
- Source Server Type    : PostgreSQL
- Source Server Version : 90604
- Source Host           : localhost:5432
- Source Catalog        : shop
- Source Schema         : settings
+Source Server         : test
+Source Server Version : 100400
+Source Host           : localhost:5432
+Source Database       : shop
+Source Schema         : settings
 
- Target Server Type    : PostgreSQL
- Target Server Version : 90604
- File Encoding         : 65001
+Target Server Type    : PGSQL
+Target Server Version : 100400
+File Encoding         : 65001
 
- Date: 29/05/2018 09:54:56
+Date: 2018-05-29 17:19:23
 */
 
 
 -- ----------------------------
--- Table structure for t_best_product
+-- Table structure for t_settings
 -- ----------------------------
-DROP TABLE IF EXISTS "settings"."t_best_product";
-CREATE TABLE "settings"."t_best_product" (
-  "fk_product_id" int4 NOT NULL
+DROP TABLE IF EXISTS "settings"."t_settings";
+CREATE TABLE "settings"."t_settings" (
+"title" text COLLATE "default",
+"host" text COLLATE "default",
+"port" int4,
+"user" text COLLATE "default",
+"password" text COLLATE "default"
 )
+WITH (OIDS=FALSE)
+
 ;
 
 -- ----------------------------
--- Table structure for t_carousel
+-- Records of t_settings
 -- ----------------------------
-DROP TABLE IF EXISTS "settings"."t_carousel";
-CREATE TABLE "settings"."t_carousel" (
-  "id" int4 NOT NULL,
-  "image_path" varchar(255) COLLATE "pg_catalog"."default"
-)
-;
+INSERT INTO "settings"."t_settings" VALUES ('Велосипедики малютки', 'mail.ru', '0', 'admin', 'acef13da09');
 
 -- ----------------------------
--- Table structure for t_mail
+-- Alter Sequences Owned By 
 -- ----------------------------
-DROP TABLE IF EXISTS "settings"."t_mail";
-CREATE TABLE "settings"."t_mail" (
-  "propety" varchar(255) COLLATE "pg_catalog"."default",
-  "value" varchar(255) COLLATE "pg_catalog"."default"
-)
-;
-
--- ----------------------------
--- Table structure for t_setting
--- ----------------------------
-DROP TABLE IF EXISTS "settings"."t_setting";
-CREATE TABLE "settings"."t_setting" (
-  "title" varchar(255) COLLATE "pg_catalog"."default",
-  "enable" bool
-)
-;
-
--- ----------------------------
--- Primary Key structure for table t_best_product
--- ----------------------------
-ALTER TABLE "settings"."t_best_product" ADD CONSTRAINT "t_best_product_pkey" PRIMARY KEY ("fk_product_id");
-
--- ----------------------------
--- Primary Key structure for table t_carousel
--- ----------------------------
-ALTER TABLE "settings"."t_carousel" ADD CONSTRAINT "t_carousel_pkey" PRIMARY KEY ("id");
