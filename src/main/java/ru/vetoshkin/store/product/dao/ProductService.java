@@ -4,10 +4,12 @@ import org.springframework.stereotype.Service;
 import ru.vetoshkin.store.core.Initialize;
 import ru.vetoshkin.store.product.Product;
 import ru.vetoshkin.store.product.XmlProduct;
+import ru.vetoshkin.store.util.HikariPool;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.sql.*;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -24,6 +26,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 @Service
 @Initialize
 public class ProductService {
+    private static final int itemsPerPage = 20;
     private static final BlockingQueue<Holder> queue = new LinkedBlockingQueue<>();
     private static final ExecutorService executors = Executors.newFixedThreadPool(10);
 
@@ -82,6 +85,31 @@ public class ProductService {
             this.index    = index;
         }
 
+    }
+
+
+    public static long getPageCount(int categoryID) throws SQLException {
+        long result = 0;
+        long items = 0;
+
+        try (Connection connection = HikariPool.getSource().getConnection()) {
+            connection.setAutoCommit(false);
+
+            CallableStatement statement = connection.prepareCall("{? = call public.get_product_count(?)}");
+            statement.registerOutParameter(1, Types.OTHER);
+            statement.setInt(2, categoryID);
+
+            statement.execute();
+
+            ResultSet set = (ResultSet) statement.getObject(1);
+            if (set.next()) {
+                items = set.getLong(1);
+            }
+
+            result = (items / itemsPerPage) + 1;
+        }
+
+        return result;
     }
 
 }

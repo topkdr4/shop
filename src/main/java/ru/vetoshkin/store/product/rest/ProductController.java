@@ -1,6 +1,5 @@
 package ru.vetoshkin.store.product.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -8,24 +7,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.vetoshkin.store.core.SimpleResponse;
 import ru.vetoshkin.store.product.Product;
-import ru.vetoshkin.store.product.XmlProduct;
 import ru.vetoshkin.store.product.XmlProducts;
 import ru.vetoshkin.store.product.dao.ImageStorage;
 import ru.vetoshkin.store.product.dao.ProductService;
 import ru.vetoshkin.store.product.dao.ProductStorage;
 import ru.vetoshkin.store.product.dto.ProductRequest;
 import ru.vetoshkin.store.product.dto.ProductResponse;
-import ru.vetoshkin.store.util.HikariPool;
-import ru.vetoshkin.store.util.Json;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.sql.*;
-import java.util.Arrays;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,7 +31,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/product")
 public class ProductController {
-    private static final int itemsPerPage = 20;
 
 
     /**
@@ -66,27 +57,7 @@ public class ProductController {
     public static SimpleResponse<Long> getPageCountOnCategory(
             @PathVariable(name = "category") int category
     ) throws Exception {
-        long result = 0;
-        long items = 0;
-
-        try (Connection connection = HikariPool.getSource().getConnection()) {
-            connection.setAutoCommit(false);
-
-            CallableStatement statement = connection.prepareCall("{? = call public.get_product_count(?)}");
-            statement.registerOutParameter(1, Types.OTHER);
-            statement.setInt(2, category);
-
-            statement.execute();
-
-            ResultSet set = (ResultSet) statement.getObject(1);
-            if (set.next()) {
-                items = set.getLong(1);
-            }
-
-            result = (items / itemsPerPage) + 1;
-        }
-
-        return new SimpleResponse<>(result);
+        return new SimpleResponse<>(ProductService.getPageCount(category));
     }
 
 
@@ -106,7 +77,7 @@ public class ProductController {
     @RequestMapping(value = "/image/upload/{productID}/{index}", method = RequestMethod.POST)
     public void imageUpload(
             @PathVariable(name = "productID") String productID,
-            @PathVariable(name = "index")     int index,
+            @PathVariable(name = "index") int index,
             @RequestParam("image") MultipartFile image) throws Exception {
         int fileId = ImageStorage.save(image.getBytes());
         ProductStorage.saveImage(productID, index, fileId);
@@ -117,8 +88,8 @@ public class ProductController {
      * Удаление картинки у товара
      */
     @RequestMapping(value = "/image/remove/{productID}/{imageIndex}", method = RequestMethod.POST)
-    public void removeImage(@PathVariable(name = "productID")  String productID,
-                            @PathVariable(name = "imageIndex") int imageIndex) throws SQLException {
+    public void removeImage(@PathVariable(name = "productID") String productID,
+            @PathVariable(name = "imageIndex") int imageIndex) throws SQLException {
         ProductStorage.removeImage(productID, imageIndex);
         ImageStorage.remove(imageIndex);
     }

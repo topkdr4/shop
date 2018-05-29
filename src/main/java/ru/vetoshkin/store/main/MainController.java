@@ -71,4 +71,22 @@ public class MainController {
         return "store/index";
     }
 
+
+    /**
+     * Список товаров по категории
+     */
+    @RequestMapping(path = "/store/product/list", method = RequestMethod.GET)
+    public String getProductList() {
+        return "store/list";
+    }
+
+
+    /**
+     * Информация по товару
+     */
+    @RequestMapping(path = "/store/product", method = RequestMethod.GET)
+    public String getProductInfo() {
+        return "store/view";
+    }
+
 }

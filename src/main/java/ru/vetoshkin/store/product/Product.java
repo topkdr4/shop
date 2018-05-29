@@ -45,6 +45,11 @@ public class Product implements DataTransferObject<ProductResponse> {
      */
     private List<Integer> images;
 
+    /**
+     * Цена
+     */
+    private float price;
+
 
 
     @Override
@@ -52,6 +57,8 @@ public class Product implements DataTransferObject<ProductResponse> {
         ProductResponse result = new ProductResponse();
         result.setId(id);
         result.setTitle(title);
+        result.setImages(images);
+        result.setPrice(price);
         
         return result;
     }

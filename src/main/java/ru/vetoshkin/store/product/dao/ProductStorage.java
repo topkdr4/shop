@@ -45,6 +45,7 @@ public class ProductStorage {
                         set.getInt(6),
                         set.getInt(7)
                 ));
+                product.setPrice(set.getFloat(8));
 
                 return product;
             }
@@ -76,11 +77,12 @@ public class ProductStorage {
     public static void save(Product product) {
         try (Connection connection = HikariPool.getSource().getConnection()) {
 
-            CallableStatement statement = connection.prepareCall("{call public.save_product(?, ?, ?, ?)}");
+            CallableStatement statement = connection.prepareCall("{call public.save_product(?, ?, ?, ?, ?)}");
             statement.setString(1, product.getId());
             statement.setString(2, product.getTitle());
             statement.setString(3, product.getDescription());
             statement.setInt(4,    product.getCategory());
+            statement.setFloat(5,  product.getPrice());
 
             statement.execute();
         } catch (SQLException e) {
@@ -109,6 +111,14 @@ public class ProductStorage {
                 Product product = new Product();
                 product.setId(set.getString(1));
                 product.setTitle(set.getString(2));
+                product.setDescription(set.getString(3));
+                product.setCategory(set.getInt(4));
+                product.setImages(Arrays.asList(
+                        set.getInt(5),
+                        set.getInt(6),
+                        set.getInt(7)
+                ));
+                product.setPrice(set.getFloat(8));
 
                 result.add(product);
             }

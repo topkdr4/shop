@@ -2,6 +2,8 @@ package ru.vetoshkin.store.product.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 
 
 
@@ -21,4 +23,14 @@ public class ProductResponse {
      * Название
      */
     private String title;
+
+    /**
+     * Изображения
+     */
+    private List<Integer> images;
+
+    /**
+     * Цена
+     */
+    private float price;
 }

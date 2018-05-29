@@ -34,6 +34,11 @@ public class ProductRequest implements DataTransferObject<Product> {
      */
     private int category;
 
+    /**
+     * Цена
+     */
+    private float price;
+
 
     @Override
     public Product transfer() {
@@ -42,6 +47,7 @@ public class ProductRequest implements DataTransferObject<Product> {
         result.setTitle(title);
         result.setDescription(description);
         result.setCategory(category);
+        result.setPrice(price);
 
         return result;
     }

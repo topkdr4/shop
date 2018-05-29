@@ -34,6 +34,7 @@
                 this.title = state.title;
                 this.description = state.description;
                 this.isNew = false;
+                this.price = state.price;
                 this.firstImage  = state.images[0] ? '/product/image/' + state.images[0] : '';
                 this.secondImage = state.images[1] ? '/product/image/' + state.images[1] : '';
                 this.thirdImage  = state.images[2] ? '/product/image/' + state.images[2] : '';
@@ -48,7 +49,8 @@
                     id:    this.id,
                     title: this.title,
                     description: this.description,
-                    category: +($categoriesList.val())
+                    category: +($categoriesList.val()),
+                    price: +(this.price)
                 };
 
                 $.ajax({
@@ -89,6 +91,7 @@
             firstImage:  '',
             secondImage: '',
             thirdImage:  '',
+            price: 0,
             selectedImage: -1,
             isNew: true
         }

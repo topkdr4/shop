@@ -20,19 +20,11 @@
 
 <body class="indigo lighten-5">
 
-<!-- Dropdown Structure -->
-<ul id="dropdown1" class="dropdown-content">
-    <li><a href="#!">one</a></li>
-    <li><a href="#!">two</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">three</a></li>
-</ul>
-
 <div class="navbar-fixed">
     <nav class="light-blue darken-3">
         <div class="nav-wrapper">
 
-            <a href="javascript:;" class="brand-logo center"><%= settings.getTitle()%></a>
+            <a href="/store" class="brand-logo center"><%= settings.getTitle()%></a>
 
             <ul class="right hide-on-med-and-down">
                 <li><i class="material-icons left">local_phone</i><b>8-800-00-00-000</b> (с 05:00 до 00:00)</li>
@@ -50,7 +42,7 @@
         <div class="collection">
             <%
                 for (Category category : categoryList) {
-                    out.println("<a href=\"/store/product/" + category.getId() + "/list\" class=\"collection-item light-blue-text text-darken-3\">" + category.getTitle() + "</a>");
+                    out.println("<a href=\"/store/product/list?category=" + category.getId() + "\" class=\"collection-item light-blue-text text-darken-3\">" + category.getTitle() + "</a>");
                 }
             %>
         </div>
@@ -58,20 +50,50 @@
 
     <div class="col s9">
 
+        <style>
+            .lol {
+                background-image: url("http://bpic.588ku.com/back_pic/03/95/53/3457ed091204154.jpg");
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: cover;
+            }
+
+            .lol1 {
+                background-image: url("http://www.bicyclecentreballarat.com.au/wp-content/uploads/2016/06/2.jpg");
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: cover;
+            }
+
+            .lol2 {
+                background-image: url("http://www.bicyclecentreballarat.com.au/wp-content/uploads/2016/06/1.jpg");
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: cover;
+            }
+
+            .lol3 {
+                background-image: url("http://goborobudur.com/wp-content/uploads/2016/09/bikepacking-header5-650x250@2x.jpg");
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: cover;
+            }
+        </style>
+
         <!-- Карусель -->
         <div class="row">
             <div class="col s12">
-                <div class="card row carousel carousel-slider center" data-indicators="true" style="max-height: 300px;">
-                    <div class="carousel-item red white-text">
+                <div class="card row carousel carousel-slider center" data-indicators="true" style="max-height: 400px;">
+                    <div class="carousel-item lol">
                         <h2>Реклама</h2>
                     </div>
-                    <div class="carousel-item amber">
+                    <div class="carousel-item lol1">
                         <h2>Реклама</h2>
                     </div>
-                    <div class="carousel-item green">
+                    <div class="carousel-item lol2">
                         <h2>Реклама</h2>
                     </div>
-                    <div class="carousel-item blue">
+                    <div class="carousel-item lol3">
                         <h2>Реклама</h2>
                     </div>
                 </div>
@@ -84,24 +106,29 @@
                 <p class="flow-text">Лучшие предложения</p>
             </div>
 
-            <div class="col s4">
+            <div class="col s3">
                 <div class="card small">
 
                 </div>
             </div>
 
-            <div class="col s4">
+            <div class="col s3">
                 <div class="card small">
 
                 </div>
             </div>
 
-            <div class="col s4">
+            <div class="col s3">
                 <div class="card small">
 
                 </div>
             </div>
 
+            <div class="col s3">
+                <div class="card small">
+
+                </div>
+            </div>
         </div>
 
     </div>
@@ -121,19 +148,6 @@
 
 <script type="text/javascript" src="../static/lib/jquery.js"></script>
 <script type="text/javascript" src="../static/lib/materialize.js"></script>
-
-<script type="text/javascript">
-    $(".dropdown-button").dropdown();
-    var a = $('.carousel.carousel-slider');
-    a.carousel({
-        dist: 0,
-        fullWidth: true,
-        duration: 200
-    });
-
-    var intervalId = setInterval(function () {
-        a.carousel('next', 1);
-    }, 3000)
-</script>
+<script type="text/javascript" src="../static/pages/store/index.js"></script>
 </body>
 </html>

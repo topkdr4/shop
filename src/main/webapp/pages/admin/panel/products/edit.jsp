@@ -81,16 +81,15 @@
             <div class="col s12">
                 <div class="card product">
                     <div class="card-content">
-                        <span class="card-title">
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <input placeholder="Артикул" class="code" type="text" v-model="id" />
-                                </div>
-                            </div>
-                        </span>
                         <div class="row">
-                            <div class="input-field col s12">
+                            <div class="input-field col s4">
+                                <input placeholder="Артикул" class="code" type="text" v-model="id" />
+                            </div>
+                            <div class="input-field col s4">
                                 <input placeholder="Наименование" class="title" type="text" v-model="title" />
+                            </div>
+                            <div class="input-field col s4">
+                                <input placeholder="Цена" class="price" type="text" v-model="price" />
                             </div>
                             <div class="input-field col s12">
                                 <textarea class="materialize-textarea description" v-model="description"></textarea>
