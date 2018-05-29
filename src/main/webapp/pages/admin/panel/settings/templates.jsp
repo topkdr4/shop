@@ -1,18 +1,69 @@
+<%@ page import="ru.vetoshkin.store.util.Json" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Категории</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" >
-    <link type="text/css" rel="stylesheet" href="../static/css/materialize.css"  media="screen" />
-    <link type="text/css" rel="stylesheet" href="../static/css/hamburger.css" />
-    <link type="text/css" rel="stylesheet" href="../static/css/styles.css" />
-</head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="../../static/css/materialize.css" media="screen"/>
+    <link type="text/css" rel="stylesheet" href="../../static/css/hamburger.css"/>
+    <link type="text/css" rel="stylesheet" href="../../static/css/styles.css"/>
+    <link type="text/css" rel="stylesheet" href="../../static/css/codemirror.css" />
+    <link type="text/css" rel="stylesheet" href="../../static/css/eclipse.css" />
 
+    <title>Шаблоны</title>
+
+    <style>
+        .fixed-nav {
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            width: 350px;
+            height: calc(100% - 64px);
+            overflow: auto;
+            z-index: 65;
+        }
+
+        .fixed-nav-hidden {
+            display: none;
+        }
+
+        .fixed-hover {
+            position: absolute;
+            z-index: 60;
+            width:100%;
+            height: 100%;
+            margin: 0;
+            padding:0;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+
+        .overflow-hidden {
+            overflow: hidden;
+        }
+
+        .lvl-1 {
+            padding-left: 40px !important;
+        }
+
+        .lvl-1 > .material-icons {
+            margin-right: 16px;
+        }
+
+        #fixed-menu a {
+            color: rgba(0, 0, 0, 0.87);
+        }
+
+
+        .CodeMirror {
+            height:    480px;
+        }
+
+    </style>
+</head>
 <body class="grey lighten-5">
 
-<div class="fixed-hover fixed-nav-hidden" ></div>
-
+<div class="fixed-hover fixed-nav-hidden"></div>
 <div class="navbar-fixed z-depth-1">
     <nav class="light-blue darken-3">
         <div class="nav-wrapper">
@@ -31,8 +82,6 @@
         </div>
     </nav>
 </div>
-
-
 <div id="fixed-menu" class="left card-panel fixed-nav fixed-nav-hidden">
     <ul class="collapsible menu-root" data-collapsible="accordion">
         <li>
@@ -50,7 +99,8 @@
             <div class="collapsible-header"><i class="material-icons">trending_up</i>Аналитика</div>
         </li>
         <li>
-            <div class="collapsible-header"><i class="material-icons">attach_money</i>Платежи <span class="new badge light-blue darken-3">4</span></div>
+            <div class="collapsible-header"><i class="material-icons">attach_money</i>Платежи <span
+                    class="new badge light-blue darken-3">4</span></div>
         </li>
         <li>
             <div class="collapsible-header"><i class="material-icons">settings</i>Настройки</div>
@@ -67,44 +117,13 @@
 </div>
 
 <main class="row">
-
-    <div class="col s6 offset-s3">
-        <div class="card">
-            <table class="striped centered search-result">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Название категории</th>
-                        <th>Действия</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr v-for="item in data">
-                        <td>{{item.id}}</td>
-                        <td>{{item.title}}</td>
-                        <td>
-                            <a class="waves-effect waves-red    btn-flat" @click="remove(item.id)"><i class="material-icons">remove</i></a>
-                            <a class="waves-effect waves-yellow btn-flat" @click="edit(item.id)"><i class="material-icons">edit</i></a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="card pagination"></div>
-        <div>
-            <a class="waves-effect waves-green btn-flat" href="/admin/categories/edit"><i class="material-icons">add</i>Добавить категорию</a>
-        </div>
-    </div>
 </main>
 
 </body>
-
-<script type="text/javascript" src="../static/lib/jquery.js"></script>
-<script type="text/javascript" src="../static/lib/vue.js"></script>
-<script type="text/javascript" src="../static/lib/materialize.js"></script>
-<script type="text/javascript" src="../static/lib/pagination.js"></script>
-<script type="text/javascript" src="../static/pages/admin/panel/main.js"></script>
-<script type="text/javascript" src="../static/pages/admin/panel/categories/list.js"></script>
+<script type="text/javascript" src="../../static/lib/jquery.js"></script>
+<script type="text/javascript" src="../../static/lib/vue.js"></script>
+<script type="text/javascript" src="../../static/lib/materialize.js"></script>
+<script type="text/javascript" src="../../static/lib/pagination.js"></script>
+<script type="text/javascript" src="../../static/pages/admin/panel/main.js"></script>
+<script type="text/javascript" src="../../static/pages/admin/panel/settings/templates.js"></script>
 </html>

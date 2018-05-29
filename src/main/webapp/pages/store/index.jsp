@@ -1,8 +1,7 @@
-<%@ page import="ru.vetoshkin.store.settings.Settings" %>
 <%@ page import="ru.vetoshkin.store.category.Category" %>
 <%@ page import="ru.vetoshkin.store.category.dao.CategoryStorage" %>
-<%@ page import="java.util.stream.Collectors" %>
-<%@ page import="java.util.List" %>
+<%@ page import="ru.vetoshkin.store.settings.Settings" %>
+<%@ page import="java.util.Collection" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +12,7 @@
 
     <%
         Settings settings = Settings.getInstance();
-        List<Category> categoryList = CategoryStorage.stream().collect(Collectors.toList());
+        Collection<Category> categoryList = CategoryStorage.getAll();
     %>
 
     <title><%= settings.getTitle()%></title>
@@ -33,7 +32,7 @@
     <nav class="light-blue darken-3">
         <div class="nav-wrapper">
 
-            <a href="javascript:;" class="brand-logo center">Logo</a>
+            <a href="javascript:;" class="brand-logo center"><%= settings.getTitle()%></a>
 
             <ul class="right hide-on-med-and-down">
                 <li><i class="material-icons left">local_phone</i><b>8-800-00-00-000</b> (с 05:00 до 00:00)</li>
@@ -49,10 +48,11 @@
     <div class="col s3">
         <!-- Меню слева -->
         <div class="collection">
-            <a href="#!" class="collection-item light-blue-text text-darken-3">Alvin</a>
-            <a href="#!" class="collection-item light-blue-text text-darken-3">Alvin</a>
-            <a href="#!" class="collection-item light-blue-text text-darken-3">Alvin</a>
-            <a href="#!" class="collection-item light-blue-text text-darken-3">Alvin</a>
+            <%
+                for (Category category : categoryList) {
+                    out.println("<a href=\"/store/product/" + category.getId() + "/list\" class=\"collection-item light-blue-text text-darken-3\">" + category.getTitle() + "</a>");
+                }
+            %>
         </div>
     </div>
 

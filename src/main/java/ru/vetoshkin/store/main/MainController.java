@@ -68,7 +68,7 @@ public class MainController {
      */
     @RequestMapping(path = "/store", method = RequestMethod.GET)
     public String getStore() {
-        return "store/store";
+        return "store/index";
     }
 
 }
