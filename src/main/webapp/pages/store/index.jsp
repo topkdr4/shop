@@ -90,18 +90,10 @@
         <div class="row">
             <div class="col s12">
                 <div class="card row carousel carousel-slider center" data-indicators="true" style="max-height: 400px;">
-                    <div class="carousel-item lol">
-                        <h2>Реклама</h2>
-                    </div>
-                    <div class="carousel-item lol1">
-                        <h2>Реклама</h2>
-                    </div>
-                    <div class="carousel-item lol2">
-                        <h2>Реклама</h2>
-                    </div>
-                    <div class="carousel-item lol3">
-                        <h2>Реклама</h2>
-                    </div>
+                    <div class="carousel-item lol"></div>
+                    <div class="carousel-item lol1"></div>
+                    <div class="carousel-item lol2"></div>
+                    <div class="carousel-item lol3"></div>
                 </div>
             </div>
         </div>

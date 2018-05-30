@@ -11,6 +11,7 @@
             html +=          '<div class="row">';
             html +=             '<div class="input-field col s12" v-for="(item, index) in data">';
             html +=                 '{{item.title}} - {{item.price}} ₽';
+            html +=                 '<a href="javascript:;" @click="remove(item.id)">Удалить</a>';
             html +=             '</div>';
             html +=          '</div>';
             html +=     '</div>';
@@ -42,11 +43,22 @@
             render: function () {
                 var data = [];
                 JSON.parse(getCookie('basket')).forEach(function (item) {
-                     data.push({title: allTitles[item], price: allPrices[item]});
+                     data.push({title: allTitles[item], price: allPrices[item], id: item});
                 });
 
                 this.data = data;
                 this.sum = ico.sum;
+            },
+            remove: function(id) {
+                var result = [];
+                this.data.forEach(function(item) {
+                    if (item.id != id) {
+                        result.push(item);
+                    }
+                });
+                setCookie('basket', JSON.stringify(result));
+                ico.recalc();
+                this.data = result;
             }
         },
         data: {
