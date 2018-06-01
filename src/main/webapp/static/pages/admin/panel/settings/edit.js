@@ -1,7 +1,7 @@
 (function() {
     "use strict";
 
-    var settings = window.settings = new Vue({
+    var settings = new Vue({
         el: '.settings-form',
         methods: {
             setState: function(state) {
@@ -44,7 +44,41 @@
     });
 
 
-    if (currentState)
-        settings.setState(currentState);
+    if (settings && settings.mail)
+        settings.setState(settings.mail);
+
+
+    var carousel = new Vue({
+        el: '.carousel',
+        methods: {
+            setState: function(state) {
+                var source = [];
+                state.forEach(function(item) {
+                    source.push({url: item});
+                });
+
+                this.source = source;
+            },
+            save: function() {
+                var result = [];
+                this.source.forEach(function(item) {
+                    result.push(item.url);
+                });
+
+                return result;
+            },
+            add: function() {
+                this.source.push({
+                    url: "ss"
+                });
+            },
+            remove: function(pos) {
+                this.source.splice(pos, 1);
+            }
+        },
+        data: {
+            source: []
+        }
+    });
 
 })();

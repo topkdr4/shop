@@ -58,7 +58,7 @@
             <div class="collapsible-header"><i class="material-icons">settings</i>Настройки</div>
             <ul class="collection collapsible-body sub-menu-item">
                 <li class="collection-item valign-wrapper lvl-1">
-                    <i class="material-icons">web</i><a href="#!">Шаблоны</a>
+                    <i class="material-icons">web</i><a href="/admin/settings/template">Шаблоны</a>
                 </li>
                 <li class="collection-item valign-wrapper lvl-1">
                     <i class="material-icons">tune</i><a href="/admin/settings/edit">Основное</a>
@@ -70,88 +70,114 @@
 
 <main class="row">
     <div class="col s8 offset-l2">
-        <div class="row settings-form">
+        <div class="row">
+
             <!-- Карусель на главной странице -->
-            <div class="col s6">
-                <div class="card">
-                    <div class="card-content">
+            <div class="row">
+
+                <div class="col s6">
+                    <div class="card carousel"  style="height: auto">
+                        <div class="card-content">
                             <span class="card-title">
-                                <b>&laquo;Карусель&raquo;</b><br>
-                                <input type="checkbox" class="filled-in" id="carousel" checked="checked" />
-                                <label for="carousel">Включить</label>
+                                <b>&laquo;Карусель&raquo;</b>
                             </span>
+                            <template v-for="(item, index) in source">
+                                <div class="input-field col s9">
+                                    <input placeholder="URL" type="text" v-model="item.url"/>
+                                </div>
+                                <div class="input-field col s3">
+                                    <p>
+                                        <a href="javascript:;" @click="remove(index)">Удалить</a>
+                                    </p>
+                                </div>
+                            </template>
+                            <div class="row">
+                                <div class="col s12">
+                                    <a href="javascript:;" @click="add()">Добавить</a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <a class="waves-effect waves-light btn green accent-4" @click="save()"><i
+                                            class="material-icons right">save</i>Сохранить</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Лучшие товары на главной странице -->
-            <div class="col s6">
-                <div class="card">
-                    <div class="card-content">
+
+                <!-- Лучшие товары на главной странице -->
+                <div class="col s6">
+                    <div class="card">
+                        <div class="card-content">
                             <span class="card-title">
                                 <b>&laquo;Лучшие предложения&raquo;</b><br>
-                                <input type="checkbox" class="filled-in" id="best-product" checked="checked" />
-                                <label for="best-product">Включить</label>
                             </span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Почтовые настройки -->
-            <div class="col s12">
-                <div class="card">
-                    <div class="card-content">
+
+            <div class="row settings-form">
+                <!-- Почтовые настройки -->
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-content">
                             <span class="card-title">
                                <b>&laquo;Почта&raquo;</b>
                             </span>
-                        <div class="row">
-                            <div class="input-field col s6">
-                                <input placeholder="Хост" id="host" type="text" v-model="host" />
-                                <label for="host">mail.smtp.host</label>
-                            </div>
-                            <div class="input-field col s6">
-                                <input placeholder="Порт" id="port" type="text" v-model="port" />
-                                <label for="port">mail.smtp.port</label>
-                            </div>
-                            <div class="input-field col s6">
-                                <input placeholder="Адрес почты" id="address" type="text" v-model="email" />
-                                <label for="address">Адрес почты</label>
-                            </div>
-                            <div class="input-field col s6">
-                                <input placeholder="Пароль" id="password" type="password" v-model="password" />
-                                <label for="password">Пароль</label>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input placeholder="Хост" id="host" type="text" v-model="host" />
+                                    <label for="host">mail.smtp.host</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input placeholder="Порт" id="port" type="text" v-model="port" />
+                                    <label for="port">mail.smtp.port</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input placeholder="Адрес почты" id="address" type="text" v-model="email" />
+                                    <label for="address">Адрес почты</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input placeholder="Пароль" id="password" type="password" v-model="password" />
+                                    <label for="password">Пароль</label>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Название магазина -->
-            <div class="col s12">
-                <div class="card">
-                    <div class="card-content">
+                <!-- Название магазина -->
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-content">
                         <span class="card-title">
                            <b>&laquo;Название магазина&raquo;</b>
                         </span>
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <input placeholder="Название магазина" id="store-title" type="text" v-model="title" />
-                                <label for="store-title">Название магазина</label>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input placeholder="Название магазина" id="store-title" type="text" v-model="title" />
+                                    <label for="store-title">Название магазина</label>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-content">
+                            <p>
+                                <a class="waves-effect waves-light btn green accent-4"  @click="save()"><i class="material-icons right">save</i>Сохранить</a>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col s12">
-                <div class="card">
-                    <div class="card-content">
-                        <p>
-                            <a class="waves-effect waves-light btn green accent-4"  @click="save()"><i class="material-icons right">save</i>Сохранить</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </main>
@@ -163,7 +189,9 @@
 <script type="text/javascript" src="../../static/lib/pagination.js"></script>
 <script type="text/javascript" src="../../static/pages/admin/panel/main.js"></script>
 <script type="text/javascript">
-    window.currentState = <%= Json.toJson(settings)%>
+    window.settings = {
+        mail: <%= Json.toJson(settings)%>
+    };
 </script>
 
 <script type="text/javascript" src="../../static/pages/admin/panel/settings/edit.js"></script>

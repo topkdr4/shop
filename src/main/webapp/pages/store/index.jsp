@@ -15,13 +15,12 @@
     <link type="text/css" rel="stylesheet" href="../static/css/styles.css" />
 
     <%
-        Settings settings = Settings.getInstance();
         Collection<Category> categoryList = CategoryStorage.getAll();
         Map<String, Float> allPrices = PriceService.getALlPrice();
         Map<String, String> allTitles = PriceService.getAllTitles();
     %>
 
-    <title><%= settings.getTitle()%></title>
+    <title><%= Settings.getTitle()%></title>
 </head>
 
 <body class="indigo lighten-5">
@@ -30,7 +29,7 @@
     <nav class="light-blue darken-3">
         <div class="nav-wrapper">
 
-            <a href="/store" class="brand-logo center"><%= settings.getTitle()%></a>
+            <a href="/store" class="brand-logo center"><%= Settings.getTitle()%></a>
 
             <ul class="right hide-on-med-and-down">
                 <li><i class="material-icons left">local_phone</i><b>8-800-00-00-000</b> (с 05:00 до 00:00)</li>

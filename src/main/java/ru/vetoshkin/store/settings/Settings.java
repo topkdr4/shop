@@ -7,6 +7,8 @@ import ru.vetoshkin.store.core.Initialize;
 import ru.vetoshkin.store.util.HikariPool;
 
 import java.sql.*;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Ветошкин А.В.
@@ -17,12 +19,24 @@ import java.sql.*;
 @Service
 @Initialize
 public class Settings {
-    private static final Settings gloablSettings = new Settings();
+    private static final Map<String, String> gloablSettings = new ConcurrentHashMap<>();
     private String title;
     private String host;
     private int port;
     private String email;
     private String password;
+
+
+    private Settings(boolean isCopy) {
+        this.title = gloablSettings.get("shop.title");
+        this.host  = gloablSettings.get("smtp.host");
+        this.port  = Integer.parseInt(gloablSettings.get("smtp.port"));
+        this.email = gloablSettings.get("smtp.user");
+        this.password = gloablSettings.get("smtp.pwd");
+    }
+
+
+    public Settings() {}
 
 
     /**
@@ -38,12 +52,8 @@ public class Settings {
             statement.execute();
 
             ResultSet set = (ResultSet) statement.getObject(1);
-            if (set.next()) {
-                gloablSettings.setTitle(set.getString(1));
-                gloablSettings.setHost(set.getString(2));
-                gloablSettings.setPort(set.getInt(3));
-                gloablSettings.setEmail(set.getString(4));
-                gloablSettings.setPassword(set.getString(5));
+            while (set.next()) {
+                gloablSettings.put(set.getString(1), set.getString(2));
             }
 
         }
@@ -59,25 +69,30 @@ public class Settings {
 
             CallableStatement statement = connection.prepareCall("{call settings.save_settings(?, ?, ?, ?, ?)}");
 
-            statement.setString(1, settings.getTitle());
-            statement.setString(2, settings.getHost());
-            statement.setInt(3, settings.getPort());
-            statement.setString(4, settings.getEmail());
-            statement.setString(5, settings.getPassword());
+            statement.setString(1, settings.title);
+            statement.setString(2, settings.host);
+            statement.setString(3, String.valueOf(settings.port));
+            statement.setString(4, settings.email);
+            statement.setString(5, settings.password);
 
             statement.execute();
 
 
-            gloablSettings.setTitle(settings.getTitle());
-            gloablSettings.setHost(settings.getHost());
-            gloablSettings.setPort(settings.getPort());
-            gloablSettings.setEmail(settings.getEmail());
-            gloablSettings.setPassword(settings.getPassword());
+            gloablSettings.put("shop.title", settings.title);
+            gloablSettings.put("smtp.host", settings.host);
+            gloablSettings.put("smtp.port", String.valueOf(settings.port));
+            gloablSettings.put("smtp.user", settings.email);
+            gloablSettings.put("smtp.pwd", settings.password);
         }
     }
 
 
     public static Settings getInstance() {
-        return gloablSettings;
+        return new Settings(true);
+    }
+
+
+    public static String getTitle() {
+        return gloablSettings.get("shop.title");
     }
 }

@@ -16,7 +16,6 @@
     <link type="text/css" rel="stylesheet" href="../../static/css/styles.css"/>
 
     <%
-        Settings settings = Settings.getInstance();
         Collection<Category> categoryList = CategoryStorage.getAll();
 
         String categoryId = pageContext.getRequest().getParameter("category");
@@ -38,7 +37,7 @@
     <nav class="light-blue darken-3">
         <div class="nav-wrapper">
 
-            <a href="/store" class="brand-logo center"><%= settings.getTitle()%>
+            <a href="/store" class="brand-logo center"><%= Settings.getTitle()%>
             </a>
 
             <ul class="right hide-on-med-and-down">
