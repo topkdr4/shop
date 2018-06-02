@@ -5,8 +5,8 @@
 <%@ page import="ru.vetoshkin.store.util.Json" %>
 <%@ page import="ru.vetoshkin.store.product.dao.PriceService" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="ru.vetoshkin.store.settings.Carousel" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -33,6 +33,7 @@
 
             <ul class="right hide-on-med-and-down">
                 <li><i class="material-icons left">local_phone</i><b>8-800-00-00-000</b> (с 05:00 до 00:00)</li>
+                <li><a href="javascript:;" class="room room-ico"    @click="singIn()"><i class="material-icons left">account_box</i>Личный кабинет</a></li>
                 <li><a href="javascript:;" class="basket basket-ico" @click="open()"><i class="material-icons left">shopping_cart</i>{{sum}} ₽</a></li>
             </ul>
         </div>
@@ -56,43 +57,19 @@
     <div class="col s9">
 
         <style>
-            .lol {
-                background-image: url("http://bpic.588ku.com/back_pic/03/95/53/3457ed091204154.jpg");
-                background-repeat: no-repeat;
-                background-position: center center;
-                background-size: cover;
-            }
-
-            .lol1 {
-                background-image: url("http://www.bicyclecentreballarat.com.au/wp-content/uploads/2016/06/2.jpg");
-                background-repeat: no-repeat;
-                background-position: center center;
-                background-size: cover;
-            }
-
-            .lol2 {
-                background-image: url("http://www.bicyclecentreballarat.com.au/wp-content/uploads/2016/06/1.jpg");
-                background-repeat: no-repeat;
-                background-position: center center;
-                background-size: cover;
-            }
-
-            .lol3 {
-                background-image: url("http://goborobudur.com/wp-content/uploads/2016/09/bikepacking-header5-650x250@2x.jpg");
-                background-repeat: no-repeat;
-                background-position: center center;
-                background-size: cover;
-            }
+            <%= Carousel.getClasses()%>
         </style>
 
         <!-- Карусель -->
         <div class="row">
             <div class="col s12">
                 <div class="card row carousel carousel-slider center" data-indicators="true" style="max-height: 400px;">
-                    <div class="carousel-item lol"></div>
-                    <div class="carousel-item lol1"></div>
-                    <div class="carousel-item lol2"></div>
-                    <div class="carousel-item lol3"></div>
+                    <%
+                        int urls = Carousel.getUrls().size();
+                        for (int i = 0; i < urls; i++) {
+                            out.println("<div class=\"carousel-item carousel-" + (i + 1) + "\"></div>");
+                        }
+                    %>
                 </div>
             </div>
         </div>

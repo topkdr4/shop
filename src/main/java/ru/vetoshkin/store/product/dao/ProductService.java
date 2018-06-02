@@ -7,6 +7,7 @@ import ru.vetoshkin.store.product.XmlProduct;
 import ru.vetoshkin.store.util.HikariPool;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.sql.*;
@@ -37,19 +38,8 @@ public class ProductService {
                 try {
                     while (true) {
                         Holder holder = queue.take();
-                        URL image = new URL(holder.getUrl());
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-                        try (InputStream stream = image.openStream()) {
-                            byte[] byteChunk = new byte[4096];
-                            int n;
-
-                            while ((n = stream.read(byteChunk)) > 0) {
-                                baos.write(byteChunk, 0, n);
-                            }
-                        }
-
-                        int imageId = ImageStorage.save(baos.toByteArray());
+                        byte[] data = loadImage(holder.getUrl());
+                        int imageId = ImageStorage.save(data);
                         ProductStorage.save(holder.getProduct());
                         ProductStorage.saveImage(holder.getProduct().getId(), holder.getIndex(), imageId);
                     }
@@ -58,6 +48,24 @@ public class ProductService {
                 }
             });
         }
+    }
+
+
+
+    public static byte[] loadImage(String url) throws IOException {
+        URL image = new URL(url);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        try (InputStream stream = image.openStream()) {
+            byte[] byteChunk = new byte[4096];
+            int n;
+
+            while ((n = stream.read(byteChunk)) > 0) {
+                baos.write(byteChunk, 0, n);
+            }
+        }
+
+        return baos.toByteArray();
     }
 
 

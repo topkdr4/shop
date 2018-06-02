@@ -28,6 +28,7 @@
             form +=     '<input type="hidden" name="sum"         class="sum" value="0" data-type="number">';
             form +=     '<input type="radio"  name="paymentType" value="AC" checked="checked">';
             form +=     '<input type="submit" value="Перевести"  class="go">';
+            form +=     '<input type="hidden" name="successURL"  value="http://localhost:8181/store">';
             form += '</form>';
 
             $('body').append($(form));
@@ -94,6 +95,23 @@
             sum: 0
         }
     });
+
+
+    var room = new Vue({
+        el: '.room-ico',
+        created: function() {
+
+        },
+        methods: {
+            setState: function(state) {
+
+            }
+        },
+        data: {
+
+        }
+    });
+
 
     $('.modal').modal();
 

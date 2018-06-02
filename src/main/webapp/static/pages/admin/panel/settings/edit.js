@@ -1,7 +1,7 @@
 (function() {
     "use strict";
 
-    var settings = new Vue({
+    var settingsComponent = new Vue({
         el: '.settings-form',
         methods: {
             setState: function(state) {
@@ -45,10 +45,13 @@
 
 
     if (settings && settings.mail)
-        settings.setState(settings.mail);
+        settingsComponent.setState(settings.mail);
 
 
-    var carousel = new Vue({
+    /**
+     *
+     * */
+    var carouselComponent = new Vue({
         el: '.carousel',
         methods: {
             setState: function(state) {
@@ -65,11 +68,22 @@
                     result.push(item.url);
                 });
 
-                return result;
+                $.ajax({
+                    url:  '/settings/carousel/save',
+                    type: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(result),
+                    success: function(resp) {
+                        window.location.reload(true);
+                    },
+                    error: function(error) {
+                        alert(error);
+                    }
+                });
             },
             add: function() {
                 this.source.push({
-                    url: "ss"
+                    url: ""
                 });
             },
             remove: function(pos) {
@@ -79,6 +93,15 @@
         data: {
             source: []
         }
+    });
+
+
+    if (settings && settings.urls)
+        carouselComponent.setState(settings.urls);
+
+
+    var bestProducts = new Vue({
+
     });
 
 })();

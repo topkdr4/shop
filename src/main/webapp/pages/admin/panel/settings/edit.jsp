@@ -1,5 +1,7 @@
 <%@ page import="ru.vetoshkin.store.settings.Settings" %>
 <%@ page import="ru.vetoshkin.store.util.Json" %>
+<%@ page import="ru.vetoshkin.store.settings.Carousel" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -10,6 +12,7 @@
     <link type="text/css" rel="stylesheet" href="../../static/css/styles.css"/>
     <%
         Settings settings = Settings.getInstance();
+        List<String> urls = Carousel.getUrls();
     %>
     <title>Настройки</title>
 </head>
@@ -190,7 +193,8 @@
 <script type="text/javascript" src="../../static/pages/admin/panel/main.js"></script>
 <script type="text/javascript">
     window.settings = {
-        mail: <%= Json.toJson(settings)%>
+        mail: <%= Json.toJson(settings)%>,
+        urls: <%= Json.toJson(urls)%>
     };
 </script>
 
