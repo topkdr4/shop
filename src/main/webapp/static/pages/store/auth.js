@@ -17,6 +17,7 @@
                     data: JSON.stringify(data),
                     success: function() {
                         Materialize.toast('Успешно авторизованы', 1500);
+                        window.location.href = '/store/profile';
                     },
                     error: function () {
                         Materialize.toast('Неверный логин или пароль', 1500);
