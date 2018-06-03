@@ -89,4 +89,12 @@ public class MainController {
         return "store/view";
     }
 
+
+    /**
+     * Страница авторизации
+     */
+    @RequestMapping(path = "/store/auth", method = RequestMethod.GET)
+    public String authUser() {
+        return "store/auth";
+    }
 }

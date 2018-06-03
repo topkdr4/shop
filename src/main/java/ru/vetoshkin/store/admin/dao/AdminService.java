@@ -74,7 +74,7 @@ public class AdminService {
             connection.setAutoCommit(false);
 
             String method = "{? = call public.save_admin(?, ?)}";
-            String hash = getHash(admin.getLogin());
+            String hash = getHash(admin.getPassword());
 
             CallableStatement statement = connection.prepareCall(method);
             statement.registerOutParameter(1, Types.INTEGER);
@@ -115,7 +115,7 @@ public class AdminService {
 
 
 
-    private static String getHash(String password) {
+    public static String getHash(String password) {
         byte[] hash = md.digest(password.getBytes(StandardCharsets.UTF_8));
         StringBuilder sb = new StringBuilder();
 

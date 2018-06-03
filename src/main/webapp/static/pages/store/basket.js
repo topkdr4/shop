@@ -78,7 +78,7 @@
             open: function () {
                 if (this.sum > 0 || JSON.parse(getCookie("basket") || '[]').length > 0) {
                     modal.render();
-                    $('.modal').modal('open');
+                    $('#modal1').modal('open');
                 }
             },
             recalc: function () {
@@ -99,18 +99,30 @@
 
     var room = new Vue({
         el: '.room-ico',
-        created: function() {
-
-        },
         methods: {
             setState: function(state) {
+                if (state.email) {
+                    this.email = state.email;
+                    this.title = state.email;
+                } else {
+                    this.email = null;
+                    this.title = 'Личный кабинет';
+                }
 
+            },
+            singIn: function() {
+                if (this.email)
+                     window.location.href = '/store/profile';
+                else window.location.href = '/store/auth';
             }
         },
         data: {
-
+            email: null,
+            title: 'Личный кабинет'
         }
     });
+
+    room.setState(currentUser);
 
 
     $('.modal').modal();
