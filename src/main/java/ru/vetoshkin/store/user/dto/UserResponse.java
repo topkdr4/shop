@@ -21,4 +21,9 @@ public class UserResponse {
      * Имя
      */
     protected String name;
+
+    /**
+     * Участие в почтовой раcсылкe
+     */
+    protected boolean dispatch = true;
 }

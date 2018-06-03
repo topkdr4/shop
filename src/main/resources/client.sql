@@ -12,7 +12,7 @@
  Target Server Version : 90604
  File Encoding         : 65001
 
- Date: 03/06/2018 16:26:29
+ Date: 03/06/2018 23:34:50
 */
 
 
@@ -31,6 +31,8 @@ CREATE TABLE "client"."t_client_sessions" (
 -- Records of t_client_sessions
 -- ----------------------------
 INSERT INTO "client"."t_client_sessions" VALUES ('topkdr4@mail.ru', 'DGNPF15JP07L26CFXHPZREUXOO8N4H04G8AH8J6FEGIWJDCRC6XE5RSNDM2AVC8B', '2018-06-17 16:25:31.9');
+INSERT INTO "client"."t_client_sessions" VALUES ('topkdr4@mail.ru', 'HE3BCSQYC7UWAI4C1Q2QTLHS3M7451ENYYYUGKYTJR3RGDJCR5QMI6FPHUPSM29W', '2018-06-17 16:30:57');
+INSERT INTO "client"."t_client_sessions" VALUES ('topkdr4@mail.ru', 'KHC1UV86S4WPWWJ34KVJY6O1GNFE3EYBQ5GLELDPBQE7AAN4AC7SVYIVS3CHHWNO', '2018-06-17 16:31:13.698');
 
 -- ----------------------------
 -- Table structure for t_clients
@@ -39,14 +41,15 @@ DROP TABLE IF EXISTS "client"."t_clients";
 CREATE TABLE "client"."t_clients" (
   "email" text COLLATE "pg_catalog"."default" NOT NULL,
   "password" text COLLATE "pg_catalog"."default",
-  "name" text COLLATE "pg_catalog"."default"
+  "name" text COLLATE "pg_catalog"."default",
+  "dispatch" bool
 )
 ;
 
 -- ----------------------------
 -- Records of t_clients
 -- ----------------------------
-INSERT INTO "client"."t_clients" VALUES ('topkdr4@mail.ru', 'e0113ca7a1d204db34ad4434267870c5256146ca915510d791b84a0cfa09857eaf251a2d7e160094d230f6a7b6b6560fb52ead742d13e5526a5f3650653402b2', '123');
+INSERT INTO "client"."t_clients" VALUES ('topkdr4@mail.ru', 'e0113ca7a1d204db34ad4434267870c5256146ca915510d791b84a0cfa09857eaf251a2d7e160094d230f6a7b6b6560fb52ead742d13e5526a5f3650653402b2', '123', 't');
 
 -- ----------------------------
 -- Function structure for get_client
@@ -86,13 +89,13 @@ END; $BODY$
 -- ----------------------------
 -- Function structure for save_client
 -- ----------------------------
-DROP FUNCTION IF EXISTS "client"."save_client"("p_email" text, "p_pwd" text, "p_name" text);
-CREATE OR REPLACE FUNCTION "client"."save_client"("p_email" text, "p_pwd" text, "p_name" text)
+DROP FUNCTION IF EXISTS "client"."save_client"("p_email" text, "p_pwd" text, "p_name" text, "p_dispatch" bool);
+CREATE OR REPLACE FUNCTION "client"."save_client"("p_email" text, "p_pwd" text, "p_name" text, "p_dispatch" bool)
   RETURNS "pg_catalog"."void" AS $BODY$
 	DECLARE
 begin
-  insert into client.t_clients ("email", "password", "name")
-	values (p_email, p_pwd, p_name);				
+  insert into client.t_clients ("email", "password", "name", "dispatch")
+	values (p_email, p_pwd, p_name, p_dispatch);				
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE

@@ -45,6 +45,7 @@ public class UserStorage {
                             result.setEmail(set.getString(1));
                             result.setPassword(set.getString(2));
                             result.setName(set.getString(3));
+                            result.setDispatch(set.getBoolean(4));
                         }
                     }
                     return result;
@@ -80,7 +81,6 @@ public class UserStorage {
 
             return sessionId;
         } catch (SQLException e) {
-            e.printStackTrace();
             return null;
         }
     }
@@ -99,6 +99,7 @@ public class UserStorage {
             statement.setString(1, user.getEmail());
             statement.setString(2, hash);
             statement.setString(3, user.getName());
+            statement.setBoolean(4, user.isDispatch());
 
             statement.execute();
         }
@@ -127,11 +128,11 @@ public class UserStorage {
                 result.setEmail(set.getString(1));
                 result.setPassword(set.getString(2));
                 result.setName(set.getString(3));
+                result.setDispatch(set.getBoolean(4));
             }
 
             return result;
         } catch (SQLException e) {
-            e.printStackTrace();
             return result;
         }
     }

@@ -29,6 +29,11 @@ public class UserRequest implements DataTransferObject<User> {
      */
     protected String name;
 
+    /**
+     * Участие в почтовой раcсылкe
+     */
+    protected boolean dispatch = true;
+
 
     @Override
     public User transfer() {
@@ -36,6 +41,7 @@ public class UserRequest implements DataTransferObject<User> {
         result.setEmail(email);
         result.setPassword(password);
         result.setName(name);
+        result.setDispatch(dispatch);
 
         return result;
     }

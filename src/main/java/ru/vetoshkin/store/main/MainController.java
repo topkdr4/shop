@@ -97,4 +97,13 @@ public class MainController {
     public String authUser() {
         return "store/auth";
     }
+
+
+    /**
+     * Страница профиля
+     */
+    @RequestMapping(path = "/store/profile", method = RequestMethod.GET)
+    public String userProfile() {
+        return "store/profile";
+    }
 }

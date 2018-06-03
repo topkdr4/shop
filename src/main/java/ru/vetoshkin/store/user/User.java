@@ -29,11 +29,18 @@ public class User implements DataTransferObject<UserResponse> {
      */
     protected String name;
 
+    /**
+     * Участие в почтовой раcсылкe
+     */
+    protected boolean dispatch = true;
+
+
     @Override
     public UserResponse transfer() {
         UserResponse result = new UserResponse();
         result.setEmail(email);
         result.setName(name);
+        result.setDispatch(dispatch);
 
         return result;
     }
