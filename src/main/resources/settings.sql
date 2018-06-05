@@ -12,7 +12,7 @@
  Target Server Version : 90604
  File Encoding         : 65001
 
- Date: 03/06/2018 16:26:57
+ Date: 05/06/2018 12:21:29
 */
 
 
@@ -56,9 +56,19 @@ CREATE TABLE "settings"."t_settings" (
 -- ----------------------------
 INSERT INTO "settings"."t_settings" VALUES ('shop.title', 'Веломагазин «Speed OF Life»');
 INSERT INTO "settings"."t_settings" VALUES ('smtp.host', '');
-INSERT INTO "settings"."t_settings" VALUES ('smtp.port', '0');
-INSERT INTO "settings"."t_settings" VALUES ('smtp.pwd', '');
+INSERT INTO "settings"."t_settings" VALUES ('smtp.port', '');
 INSERT INTO "settings"."t_settings" VALUES ('smtp.user', '');
+INSERT INTO "settings"."t_settings" VALUES ('smtp.pwd', '');
+
+-- ----------------------------
+-- Table structure for t_templates
+-- ----------------------------
+DROP TABLE IF EXISTS "settings"."t_templates";
+CREATE TABLE "settings"."t_templates" (
+  "key" text COLLATE "pg_catalog"."default" NOT NULL,
+  "value" text COLLATE "pg_catalog"."default"
+)
+;
 
 -- ----------------------------
 -- Function structure for get_carousel
@@ -93,6 +103,38 @@ SELECT
 RETURN res;
 
 END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+-- ----------------------------
+-- Function structure for get_template
+-- ----------------------------
+DROP FUNCTION IF EXISTS "settings"."get_template"("p_key" text);
+CREATE OR REPLACE FUNCTION "settings"."get_template"("p_key" text)
+  RETURNS "pg_catalog"."refcursor" AS $BODY$
+DECLARE
+res refcursor;
+BEGIN
+open res for
+	SELECT
+	* FROM settings.t_templates t where t.key = p_key;
+	
+	RETURN res;
+
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+-- ----------------------------
+-- Function structure for remove_template
+-- ----------------------------
+DROP FUNCTION IF EXISTS "settings"."remove_template"("p_key" text);
+CREATE OR REPLACE FUNCTION "settings"."remove_template"("p_key" text)
+  RETURNS "pg_catalog"."void" AS $BODY$DECLARE
+BEGIN
+	delete from "settings".t_templates t where t.key = p_key;
+END
+$BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
 
@@ -142,9 +184,29 @@ $BODY$
   COST 100;
 
 -- ----------------------------
+-- Function structure for save_template
+-- ----------------------------
+DROP FUNCTION IF EXISTS "settings"."save_template"("p_key" text, "p_text" text);
+CREATE OR REPLACE FUNCTION "settings"."save_template"("p_key" text, "p_text" text)
+  RETURNS "pg_catalog"."void" AS $BODY$
+	DECLARE
+begin
+  insert into "settings".t_templates ("key", "value")
+	values (p_key, p_text);
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+-- ----------------------------
 -- Primary Key structure for table t_best_product
 -- ----------------------------
 ALTER TABLE "settings"."t_best_product" ADD CONSTRAINT "t_best_product_pkey" PRIMARY KEY ("product_id");
+
+-- ----------------------------
+-- Primary Key structure for table t_templates
+-- ----------------------------
+ALTER TABLE "settings"."t_templates" ADD CONSTRAINT "t_templates_pkey" PRIMARY KEY ("key");
 
 -- ----------------------------
 -- Foreign Keys structure for table t_best_product

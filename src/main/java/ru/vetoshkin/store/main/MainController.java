@@ -57,9 +57,18 @@ public class MainController {
     }
 
 
+    /**
+     * Настройки
+     */
     @RequestMapping(path = "/admin/settings/edit", method = RequestMethod.GET)
     public String editSettings() {
         return "admin/panel/settings/edit";
+    }
+
+
+    @RequestMapping(path = "/admin/settings/templates", method = RequestMethod.GET)
+    public String editTemplates() {
+        return "admin/panel/settings/templates";
     }
 
 

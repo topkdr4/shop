@@ -12,7 +12,7 @@
  Target Server Version : 90604
  File Encoding         : 65001
 
- Date: 03/06/2018 16:27:04
+ Date: 05/06/2018 12:21:04
 */
 
 
@@ -21,17 +21,13 @@
 -- ----------------------------
 DROP TABLE IF EXISTS "order"."t_orders";
 CREATE TABLE "order"."t_orders" (
-  "client_email" text COLLATE "pg_catalog"."default" NOT NULL,
+  "client_email" text COLLATE "pg_catalog"."default",
   "order_num" int4,
   "product_id" text COLLATE "pg_catalog"."default",
-  "price" float4
+  "price" float4,
+  "date" timestamp(6)
 )
 ;
-
--- ----------------------------
--- Primary Key structure for table t_orders
--- ----------------------------
-ALTER TABLE "order"."t_orders" ADD CONSTRAINT "t_orders_pkey" PRIMARY KEY ("client_email");
 
 -- ----------------------------
 -- Foreign Keys structure for table t_orders

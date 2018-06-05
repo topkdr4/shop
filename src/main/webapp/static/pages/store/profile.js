@@ -31,9 +31,14 @@
 
             },
             logout: function() {
-                // TODO: DO IT
-                document.cookie = 'sessionId=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-                window.location.href = '/store';
+                $.ajax({
+                    url:  '/user/logout',
+                    type: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    success: function() {
+                        window.location.href = '/store';
+                    }
+                })
             }
         },
         data: {

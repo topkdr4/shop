@@ -2,8 +2,10 @@ package ru.vetoshkin.store.settings;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import ru.vetoshkin.store.core.Initialize;
+import ru.vetoshkin.store.mail.MailService;
 import ru.vetoshkin.store.util.HikariPool;
 
 import java.sql.*;
@@ -17,6 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter
 @Setter
 @Service
+@Order(5)
 @Initialize
 public class Settings {
     private static final Map<String, String> gloablSettings = new ConcurrentHashMap<>();
@@ -57,6 +60,8 @@ public class Settings {
             }
 
         }
+
+        MailService.init();
     }
 
 

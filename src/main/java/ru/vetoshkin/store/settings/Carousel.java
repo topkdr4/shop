@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.postgresql.PGConnection;
 import org.postgresql.jdbc.PgArray;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import ru.vetoshkin.store.core.Initialize;
 import ru.vetoshkin.store.product.dao.ProductService;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Initialize
+@Order(3)
 public class Carousel {
     private static final Map<Integer, CarouselItem> images = new ConcurrentHashMap<>();
     private static final byte[] EMPTY_IMAGE = new byte[0];

@@ -25,7 +25,7 @@
             type: 'POST',
             contentType: "application/json; charset=utf-8",
             success: function() {
-                document.cookie = 'sessionId=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                // TODO
                 window.location.reload(true);
             }
         });

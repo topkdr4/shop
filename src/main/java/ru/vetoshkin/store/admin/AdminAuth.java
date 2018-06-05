@@ -39,6 +39,7 @@ public class AdminAuth {
         Cookie cookie = new Cookie("sessionId", session);
         cookie.setPath("/");
         cookie.setMaxAge(expiry);
+        cookie.setHttpOnly(true);
 
         response.addCookie(cookie);
     }

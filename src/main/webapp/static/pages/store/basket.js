@@ -122,7 +122,8 @@
         }
     });
 
-    room.setState(currentUser);
+    if (currentUser)
+        room.setState(currentUser);
 
 
     $('.modal').modal();
