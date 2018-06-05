@@ -1,4 +1,5 @@
 <%@ page import="ru.vetoshkin.store.util.Json" %>
+<%@ page import="ru.vetoshkin.store.mail.dao.TemplatesStorage" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -56,7 +57,14 @@
 
 
         .CodeMirror {
-            height:    480px;
+            height:    400px;
+        }
+
+
+        .fixed-button {
+            bottom: 50px;
+            position: absolute;
+            right: 50px;
         }
 
     </style>
@@ -116,14 +124,70 @@
     </ul>
 </div>
 
-<main class="row">
+<main class="row templates-result">
+    <div class="col s10 offset-l1 card" style="padding: 0;">
+        <table class="striped">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Описание</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(value, key) in source">
+                    <td>{{key}}</td>
+                    <td>{{value}}</td>
+                    <td>
+                        <a class="waves-effect waves-red    btn-flat" @click="remove(key)"><i class="material-icons">remove</i></a>
+                        <a class="waves-effect waves-yellow btn-flat" @click="edit(key)"><i class="material-icons">edit</i></a>
+                    </td>
+                    <td>
+                        <a class="waves-effect waves-green  btn-flat" @click="send(key)"><i class="material-icons">send</i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <a class="btn-floating btn-large waves-effect waves-light red fixed-button" @click="add()"><i class="material-icons">add</i></a>
 </main>
+
+
+<div class="modal modal-fixed-footer template-editor">
+    <div class="modal-content">
+        <h4>Шаблон: «{{key}}»</h4>
+        <p>
+            <textarea id="editor" cols="30" rows="10"></textarea>
+        </p>
+        <p>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="Название" type="text" v-model="key" :disabled="!isNew" />
+                </div>
+                <div class="input-field col s12">
+                    <textarea id="textarea1" class="materialize-textarea" cols="30" rows="3" v-model="desc"></textarea>
+                    <label for="textarea1">Описание</label>
+                </div>
+            </div>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="javascript:;" class="modal-action modal-close  waves-effect waves-red btn-flat">Отмена</a>
+        <a href="javascript:;" class="modal-action waves-effect waves-green btn-flat" @click="save()">Сохранить</a>
+    </div>
+</div>
 
 </body>
 <script type="text/javascript" src="../../static/lib/jquery.js"></script>
+<script type="text/javascript" src="../../static/lib/codemirror.js"></script>
+<script type="text/javascript" src="../../static/lib/xml.js"></script>
 <script type="text/javascript" src="../../static/lib/vue.js"></script>
 <script type="text/javascript" src="../../static/lib/materialize.js"></script>
 <script type="text/javascript" src="../../static/lib/pagination.js"></script>
 <script type="text/javascript" src="../../static/pages/admin/panel/main.js"></script>
+<script type="text/javascript" >
+    window.templateDict = <%= Json.toJson(TemplatesStorage.getDict())%>
+</script>
 <script type="text/javascript" src="../../static/pages/admin/panel/settings/templates.js"></script>
 </html>

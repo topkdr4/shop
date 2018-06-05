@@ -12,7 +12,7 @@
  Target Server Version : 90604
  File Encoding         : 65001
 
- Date: 05/06/2018 12:20:25
+ Date: 06/06/2018 00:15:59
 */
 
 
@@ -52,7 +52,24 @@ CREATE TABLE "client"."t_clients" (
 -- ----------------------------
 -- Records of t_clients
 -- ----------------------------
-INSERT INTO "client"."t_clients" VALUES ('topkdr4@mail.ru', 'e0113ca7a1d204db34ad4434267870c5256146ca915510d791b84a0cfa09857eaf251a2d7e160094d230f6a7b6b6560fb52ead742d13e5526a5f3650653402b2', '123', 't');
+INSERT INTO "client"."t_clients" VALUES ('skuilffunny@gmail.com', 'e0113ca7a1d204db34ad4434267870c5256146ca915510d791b84a0cfa09857eaf251a2d7e160094d230f6a7b6b6560fb52ead742d13e5526a5f3650653402b2', '123', 't');
+
+-- ----------------------------
+-- Function structure for get_all_client
+-- ----------------------------
+DROP FUNCTION IF EXISTS "client"."get_all_client"();
+CREATE OR REPLACE FUNCTION "client"."get_all_client"()
+  RETURNS "pg_catalog"."refcursor" AS $BODY$ DECLARE
+	res refcursor;
+BEGIN
+	OPEN res FOR 
+		SELECT t.email FROM "client".t_clients t where t."dispatch" = true;
+		
+RETURN res;
+
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
 
 -- ----------------------------
 -- Function structure for get_client

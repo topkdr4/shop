@@ -5,7 +5,7 @@ import lombok.Setter;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import ru.vetoshkin.store.core.Initialize;
-import ru.vetoshkin.store.mail.MailService;
+import ru.vetoshkin.store.mail.dao.MailService;
 import ru.vetoshkin.store.util.HikariPool;
 
 import java.sql.*;

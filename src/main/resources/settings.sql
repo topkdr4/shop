@@ -12,7 +12,7 @@
  Target Server Version : 90604
  File Encoding         : 65001
 
- Date: 05/06/2018 12:21:29
+ Date: 06/06/2018 00:15:49
 */
 
 
@@ -55,7 +55,7 @@ CREATE TABLE "settings"."t_settings" (
 -- Records of t_settings
 -- ----------------------------
 INSERT INTO "settings"."t_settings" VALUES ('shop.title', 'Веломагазин «Speed OF Life»');
-INSERT INTO "settings"."t_settings" VALUES ('smtp.host', '');
+INSERT INTO "settings"."t_settings" VALUES ('smtp.host', 'smtp.mail.ru');
 INSERT INTO "settings"."t_settings" VALUES ('smtp.port', '');
 INSERT INTO "settings"."t_settings" VALUES ('smtp.user', '');
 INSERT INTO "settings"."t_settings" VALUES ('smtp.pwd', '');
@@ -66,9 +66,27 @@ INSERT INTO "settings"."t_settings" VALUES ('smtp.pwd', '');
 DROP TABLE IF EXISTS "settings"."t_templates";
 CREATE TABLE "settings"."t_templates" (
   "key" text COLLATE "pg_catalog"."default" NOT NULL,
-  "value" text COLLATE "pg_catalog"."default"
+  "value" text COLLATE "pg_catalog"."default",
+  "desc" text COLLATE "pg_catalog"."default"
 )
 ;
+
+-- ----------------------------
+-- Records of t_templates
+-- ----------------------------
+INSERT INTO "settings"."t_templates" VALUES ('after', '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head></head>
+  <body>
+    <b>ТЕКСТ</b> и текст и ололо
+  </body>
+</html>', 'Шаблон письма отправляемый пользователю после регистрации');
+INSERT INTO "settings"."t_templates" VALUES ('Пример шаблона 1', '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head></head>
+  <body>
+  </body>
+</html>', '');
 
 -- ----------------------------
 -- Function structure for get_carousel
@@ -101,6 +119,25 @@ open res for
 SELECT
 * FROM settings.t_settings;
 RETURN res;
+
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+-- ----------------------------
+-- Function structure for get_template
+-- ----------------------------
+DROP FUNCTION IF EXISTS "settings"."get_template"();
+CREATE OR REPLACE FUNCTION "settings"."get_template"()
+  RETURNS "pg_catalog"."refcursor" AS $BODY$
+DECLARE
+res refcursor;
+BEGIN
+open res for
+	SELECT
+	* FROM settings.t_templates;
+	
+	RETURN res;
 
 END; $BODY$
   LANGUAGE plpgsql VOLATILE
@@ -186,13 +223,16 @@ $BODY$
 -- ----------------------------
 -- Function structure for save_template
 -- ----------------------------
-DROP FUNCTION IF EXISTS "settings"."save_template"("p_key" text, "p_text" text);
-CREATE OR REPLACE FUNCTION "settings"."save_template"("p_key" text, "p_text" text)
+DROP FUNCTION IF EXISTS "settings"."save_template"("p_key" text, "p_text" text, "p_desc" text);
+CREATE OR REPLACE FUNCTION "settings"."save_template"("p_key" text, "p_text" text, "p_desc" text)
   RETURNS "pg_catalog"."void" AS $BODY$
 	DECLARE
 begin
-  insert into "settings".t_templates ("key", "value")
-	values (p_key, p_text);
+  insert into "settings".t_templates ("key", "value", "desc")
+	values (p_key, p_text, p_desc) on conflict ("key") do
+		update set
+				  "value" = p_text,
+					"desc"  = p_desc;
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE

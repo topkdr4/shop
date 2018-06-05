@@ -9,6 +9,9 @@ import ru.vetoshkin.store.user.User;
 import ru.vetoshkin.store.util.HikariPool;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -86,6 +89,7 @@ public class UserStorage {
     }
 
 
+
     /**
      * Регистрация клиента
      */
@@ -104,6 +108,7 @@ public class UserStorage {
             statement.execute();
         }
     }
+
 
 
     /**
@@ -133,6 +138,33 @@ public class UserStorage {
 
             return result;
         } catch (SQLException e) {
+            return result;
+        }
+    }
+
+
+
+    /**
+     * Получить все emails для отправки
+     */
+    public static List<String> getAllEmailsForSend() {
+        List<String> result = new LinkedList<>();
+        try (Connection connection = HikariPool.getSource().getConnection()) {
+            connection.setAutoCommit(false);
+
+            CallableStatement statement = connection.prepareCall("{? = call client.get_all_client()}");
+            statement.registerOutParameter(1, Types.OTHER);
+
+            statement.execute();
+
+            ResultSet set = (ResultSet) statement.getObject(1);
+            while (set.next()) {
+                result.add(set.getString(1));
+            }
+
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
             return result;
         }
     }

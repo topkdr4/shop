@@ -1,12 +1,15 @@
-package ru.vetoshkin.store.mail;
+package ru.vetoshkin.store.mail.dao;
 
 
+import ru.vetoshkin.store.mail.Template;
 import ru.vetoshkin.store.settings.Settings;
+import ru.vetoshkin.store.user.dao.UserStorage;
 
 import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -56,7 +59,11 @@ public class MailService {
     }
 
 
-    public static void send(String to, String subjet, String text) {
+
+    /**
+     * Отправка письма
+     */
+    public static void send(String to, String subjet, final String text) {
         try {
             Message message = new MimeMessage(session);
             //от кого
@@ -66,7 +73,7 @@ public class MailService {
             //тема сообщения
             message.setSubject(subjet);
             //текст
-            message.setText(text);
+            message.setContent(text, "text/html; charset=utf-8");
 
             queue.offer(message);
         } catch (MessagingException e) {
@@ -75,6 +82,10 @@ public class MailService {
     }
 
 
+
+    /**
+     * Инициализация пула рассылки
+     */
     private static void poolInit() {
         for (int i = 0; i < 10; i++) {
             executors.execute(() -> {
@@ -86,6 +97,18 @@ public class MailService {
                     e.printStackTrace();
                 }
             });
+        }
+    }
+
+
+
+    /**
+     * Разослать всем пользговатям
+     */
+    public static void sendAll(Template template) {
+        List<String> emails = UserStorage.getAllEmailsForSend();
+        for (String email : emails) {
+            send(email, template.getDesc(), template.getValue());
         }
     }
 }
