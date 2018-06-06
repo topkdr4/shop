@@ -7,6 +7,10 @@
 <%@ page import="ru.vetoshkin.store.util.Json" %>
 <%@ page import="ru.vetoshkin.store.product.dao.PriceService" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="ru.vetoshkin.store.user.dao.UserStorage" %>
+<%@ page import="ru.vetoshkin.store.user.dto.UserResponse" %>
+<%@ page import="ru.vetoshkin.store.core.AuthFilter" %>
+<%@ page import="ru.vetoshkin.store.util.ServletUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
@@ -25,6 +29,12 @@
 
         Map<String, Float> allPrices = PriceService.getALlPrice();
         Map<String, String> allTitles = PriceService.getAllTitles();
+
+        Cookie cookie = ServletUtil.getCookie((HttpServletRequest) pageContext.getRequest(), AuthFilter.cookieName);
+        UserResponse user = null;
+        if (cookie != null) {
+            user = UserStorage.getUser(cookie.getValue()).transfer();
+        }
     %>
 
     <title><%= currentCategory.getTitle()%>
@@ -42,6 +52,7 @@
 
             <ul class="right hide-on-med-and-down">
                 <li><i class="material-icons left">local_phone</i><b>8-800-00-00-000</b> (с 05:00 до 00:00)</li>
+                <li><a href="javascript:;" class="room room-ico"    @click="singIn()"><i class="material-icons left">account_box</i>{{title}}</a></li>
                 <li><a href="javascript:;" class="basket basket-ico" @click="open()"><i class="material-icons left">shopping_cart</i>{{sum}} ₽</a></li>
             </ul>
         </div>
@@ -75,7 +86,7 @@
             <div class="col s12">
                 <div class="bikes">
                     <div class="col s3" v-for="item in data">
-                        <div class="card small">
+                        <div class="card small hoverable">
                             <div class="card-image" @click="more(item.id)">
                                 <img :src="item.images[0]">
                             </div>
@@ -83,8 +94,17 @@
                                 <p>{{item.title}}</p>
                             </div>
                             <div class="card-action">
-                                <a href="javascript:;" @click="add(item.id)">В корзину</a>
-                                <span>{{item.price}}₽</span>
+                                <%
+                                    if (user != null && user.getEmail() != null) {
+                                        %>
+                                            <a href="javascript:;" @click="add(item.id)">В корзину</a>
+                                            <span>{{item.price}}₽</span>
+                                        <%
+                                    } else {
+                                        %>Вы не авторизованы<%
+                                    }
+                                %>
+
                             </div>
                         </div>
                     </div>
@@ -121,6 +141,7 @@
     window.category = <%= Json.toJson(intCategoryId)%>;
     window.allPrices = <%= Json.toJson(allPrices)%>;
     window.allTitles = <%= Json.toJson(allTitles)%>;
+    window.currentUser = <%= Json.toJson(user)%>;
 </script>
 
 <script type="text/javascript" src="../../static/pages/store/cookie-util.js"></script>

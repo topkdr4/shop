@@ -2,6 +2,7 @@
 <%@ page import="ru.vetoshkin.store.util.Json" %>
 <%@ page import="ru.vetoshkin.store.settings.Carousel" %>
 <%@ page import="java.util.List" %>
+<%@ page import="ru.vetoshkin.store.settings.BestProduct" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -13,6 +14,7 @@
     <%
         Settings settings = Settings.getInstance();
         List<String> urls = Carousel.getUrls();
+        List<String> best = BestProduct.getAll();
     %>
     <title>Настройки</title>
 </head>
@@ -112,11 +114,32 @@
 
                 <!-- Лучшие товары на главной странице -->
                 <div class="col s6">
-                    <div class="card">
+                    <div class="card best-product" style="height: auto">
                         <div class="card-content">
                             <span class="card-title">
                                 <b>&laquo;Лучшие предложения&raquo;</b><br>
                             </span>
+                            <template v-for="(item, index) in source">
+                                <div class="input-field col s9">
+                                    <input placeholder="Артикул товара" type="text" v-model="item.id"/>
+                                </div>
+                                <div class="input-field col s3">
+                                    <p>
+                                        <a href="javascript:;" @click="remove(index)">Удалить</a>
+                                    </p>
+                                </div>
+                            </template>
+                            <div class="row">
+                                <div class="col s12">
+                                    <a href="javascript:;" @click="add()">Добавить</a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <a class="waves-effect waves-light btn green accent-4" @click="save()"><i
+                                            class="material-icons right">save</i>Сохранить</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -149,33 +172,19 @@
                                     <label for="password">Пароль</label>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Название магазина -->
-                <div class="col s12">
-                    <div class="card">
-                        <div class="card-content">
-                        <span class="card-title">
-                           <b>&laquo;Название магазина&raquo;</b>
-                        </span>
+                            <%--            --%>
+                            <span class="card-title">
+                               <b>&laquo;Название магазина&raquo;</b>
+                            </span>
                             <div class="row">
                                 <div class="input-field col s12">
                                     <input placeholder="Название магазина" id="store-title" type="text" v-model="title" />
                                     <label for="store-title">Название магазина</label>
                                 </div>
+                                <div class="col s12">
+                                    <a class="waves-effect waves-light btn green accent-4"  @click="save()"><i class="material-icons right">save</i>Сохранить</a>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col s12">
-                    <div class="card">
-                        <div class="card-content">
-                            <p>
-                                <a class="waves-effect waves-light btn green accent-4"  @click="save()"><i class="material-icons right">save</i>Сохранить</a>
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -194,7 +203,8 @@
 <script type="text/javascript">
     window.settings = {
         mail: <%= Json.toJson(settings)%>,
-        urls: <%= Json.toJson(urls)%>
+        urls: <%= Json.toJson(urls)%>,
+        best: <%= Json.toJson(best)%>
     };
 </script>
 

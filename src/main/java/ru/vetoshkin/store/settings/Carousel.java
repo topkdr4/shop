@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
  */
 @Service
 @Initialize
-@Order(3)
 public class Carousel {
     private static final Map<Integer, CarouselItem> images = new ConcurrentHashMap<>();
     private static final byte[] EMPTY_IMAGE = new byte[0];

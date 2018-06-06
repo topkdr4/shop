@@ -2,6 +2,7 @@ package ru.vetoshkin.store.product.dao;
 
 import org.springframework.stereotype.Service;
 import ru.vetoshkin.store.product.Product;
+import ru.vetoshkin.store.settings.BestProduct;
 import ru.vetoshkin.store.util.HikariPool;
 
 import java.sql.*;
@@ -87,6 +88,9 @@ public class ProductStorage {
             statement.execute();
 
             PriceService.setPrice(product.getId(), product.getPrice());
+            PriceService.setTitle(product.getId(), product.getTitle());
+
+            BestProduct.save(product);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -157,6 +161,8 @@ public class ProductStorage {
      * Удалить ИД картинки и картинку
      */
     public static void removeImage(String productID, int imageIndex) throws SQLException {
+        BestProduct.remove(productID);
+
         try (Connection connection = HikariPool.getSource().getConnection()) {
             connection.setAutoCommit(true);
 

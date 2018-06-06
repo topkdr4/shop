@@ -10,6 +10,9 @@
 <%@ page import="ru.vetoshkin.store.util.ServletUtil" %>
 <%@ page import="ru.vetoshkin.store.core.AuthFilter" %>
 <%@ page import="ru.vetoshkin.store.user.dto.UserResponse" %>
+<%@ page import="ru.vetoshkin.store.product.Product" %>
+<%@ page import="ru.vetoshkin.store.settings.BestProduct" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
@@ -22,6 +25,8 @@
         Collection<Category> categoryList = CategoryStorage.getAll();
         Map<String, Float> allPrices = PriceService.getALlPrice();
         Map<String, String> allTitles = PriceService.getAllTitles();
+        Map<String, Product> bestProduct = BestProduct.getALlProducts();
+        List<String> bestProductOrder = BestProduct.getAll();
         Cookie cookie = ServletUtil.getCookie((HttpServletRequest) pageContext.getRequest(), AuthFilter.cookieName);
         UserResponse user = null;
         if (cookie != null) {
@@ -83,35 +88,23 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row best-products">
 
             <div class="col s12">
                 <p class="flow-text">Лучшие предложения</p>
             </div>
 
-            <div class="col s3">
-                <div class="card small">
-
+            <div class="col s3" v-for="item in source">
+                <div class="card small hoverable">
+                    <div class="card-image" @click="more(item.id)">
+                        <img :src="item.images[0]">
+                    </div>
+                    <div class="card-content">
+                        <p>{{item.title}}</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="col s3">
-                <div class="card small">
-
-                </div>
-            </div>
-
-            <div class="col s3">
-                <div class="card small">
-
-                </div>
-            </div>
-
-            <div class="col s3">
-                <div class="card small">
-
-                </div>
-            </div>
         </div>
 
     </div>
@@ -137,6 +130,10 @@
     window.allPrices = <%= Json.toJson(allPrices)%>;
     window.allTitles = <%= Json.toJson(allTitles)%>;
     window.currentUser = <%= Json.toJson(user)%>;
+    window.bestProduct = {
+        products: <%= Json.toJson(bestProduct)%>,
+        order: <%= Json.toJson(bestProductOrder)%>
+    };
 </script>
 <script type="text/javascript" src="../static/pages/store/index.js"></script>
 <script type="text/javascript" src="../static/pages/store/cookie-util.js"></script>
