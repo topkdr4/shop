@@ -69,4 +69,14 @@ public class PriceService {
     public static void setTitle(String id, String title) {
         titles.put(id, title);
     }
+
+
+    public static void removePrice(String id) {
+        prices.remove(id);
+    }
+
+
+    public static String getTitle(String id) {
+        return titles.get(id);
+    }
 }

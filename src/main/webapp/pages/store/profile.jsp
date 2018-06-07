@@ -94,8 +94,6 @@
 <script type="text/javascript" src="../static/lib/materialize.js"></script>
 <script type="text/javascript" src="../static/lib/vue.js"></script>
 <script type="text/javascript" src="../static/lib/pagination.js"></script>
-<script type="text/javascript" src="../static/pages/store/index.js"></script>
-<script type="text/javascript" src="../static/pages/store/cookie-util.js"></script>
 <script type="text/javascript">
     window.currentUser = <%= Json.toJson(user)%>;
     $('.tabs').tabs();

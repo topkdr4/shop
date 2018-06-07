@@ -136,7 +136,6 @@
     };
 </script>
 <script type="text/javascript" src="../static/pages/store/index.js"></script>
-<script type="text/javascript" src="../static/pages/store/cookie-util.js"></script>
 <script type="text/javascript" src="../static/pages/store/basket.js"></script>
 </body>
 </html>

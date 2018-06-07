@@ -1,17 +1,33 @@
 (function () {
     "use strict";
 
-    var modal = new Vue({
+    var modal = window.bascket = new Vue({
         el: '.modal-basket',
         created: function() {
             var html = '';
-            html += '<div id="modal1" class="modal" style="width: 400px;">';
+            html += '<div id="modal1" class="modal" style="width: 600px;">';
             html +=     '<div class="modal-content">';
             html +=         '<h4>Ваш заказ:</h4>';
+            html +=          '<div class="row" v-for="(item, index) in data">';
+            html +=             '<div class="col s3 valign-wrapper" style="height: 36px">';
+            html +=                 '{{item.title}}';
+            html +=             '</div>';
+            html +=             '<div class="col s3 valign-wrapper" style="height: 36px">';
+            html +=                 '<a href="javascript:;" class="btn-flat btn-small" style="padding: 0;" @click="remove(item.id)"><i class="material-icons center" style="margin: 0 5px 0 5px;">indeterminate_check_box</i></a>';
+            html +=                 '<p style="width: 30px;" class="center-align">{{item.count}}</p>';
+            html +=                 '<a href="javascript:;" class="btn-flat btn-small" style="padding: 0;" @click="add(item.id)"><i class="material-icons center" style="margin: 0 5px 0 5px;">add_box</i></a>';
+            html +=             '</div>';
+            html +=             '<div class="col s3 valign-wrapper" style="height: 36px">';
+            html +=                 '<p>{{item.sum}} ₽</p>';
+            html +=             '</div>';
+            html +=             '<div class="col s3">';
+            html +=                 '<a href="javascript:;" class="waves-effect waves-red btn-flat btn-small" @click="fullRemove(item.id)"><i class="material-icons center">remove_shopping_cart</i></a>';
+            html +=             '</div>';
+            html +=          '</div>';
             html +=          '<div class="row">';
-            html +=             '<div class="input-field col s12" v-for="(item, index) in data">';
-            html +=                 '{{item.title}} - {{item.price}} ₽';
-            html +=                 '<a href="javascript:;" @click="remove(item.id)">Удалить</a>';
+            html +=             '<hr/>';
+            html +=             '<div class="col s 12">';
+            html +=             'Сумма к оплате: <b>{{sum}}</b> ₽';
             html +=             '</div>';
             html +=          '</div>';
             html +=     '</div>';
@@ -20,46 +36,93 @@
             html +=     '</div>';
             html += '</div>';
 
-            var form = '';
-            form += '<form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml" style="display: none">';
-            form +=     '<input type="hidden" name="receiver"    value="41001775291979">';
-            form +=     '<input type="hidden" name="quickpay-form" value="donate">';
-            form +=     '<input type="hidden" name="targets"     value="транзакция">';
-            form +=     '<input type="hidden" name="sum"         class="sum" value="0" data-type="number">';
-            form +=     '<input type="radio"  name="paymentType" value="AC" checked="checked">';
-            form +=     '<input type="submit" value="Перевести"  class="go">';
-            form +=     '<input type="hidden" name="successURL"  value="http://localhost:8181/store">';
-            form += '</form>';
-
-            $('body').append($(form));
             this.$options.template = html;
+            var that = this;
+
+            $.ajax({
+                url:  '/basket/get',
+                type: 'POST',
+                success: function(data) {
+                    that.prepareResponse(data.result);
+                }
+            });
         },
         methods: {
             buy: function() {
-                $('.sum').val(ico.sum);
-                $('.go').click();
-                setCookie('basket', '[]');
-                ico.recalc();
-            },
-            render: function () {
-                var data = [];
-                JSON.parse(getCookie('basket')).forEach(function (item) {
-                     data.push({title: allTitles[item], price: allPrices[item], id: item});
-                });
+                var form = '';
+                form += '<form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml" style="display: none">';
+                form +=     '<input type="hidden" name="receiver"    value="41001775291979">';
+                form +=     '<input type="hidden" name="quickpay-form" value="donate">';
+                form +=     '<input type="hidden" name="targets"     value="транзакция">';
+                form +=     '<input type="hidden" name="sum"         class="sum" value="' + ico.sum + '" data-type="number">';
+                form +=     '<input type="radio"  name="paymentType" value="AC" checked="checked">';
+                form +=     '<input type="submit" value="Перевести"  class="go">';
+                form +=     '<input type="hidden" name="successURL"  value="http://localhost:8181/store">';
+                form += '</form>';
 
-                this.data = data;
-                this.sum = ico.sum;
+                $('body').append($(form));
+                $('.go').click();
             },
             remove: function(id) {
+                for (var i = 0; i < this.data.length; i++) {
+                    if (this.data[i].id == id) {
+                        if (this.data[i].count == 1) {
+                            this.fullRemove(id);
+                        } else {
+                            this.data[i].count--;
+                            this.saveBasket();
+                        }
+                        break;
+                    }
+                }
+            },
+            add: function(id) {
+                var find = false;
+                for (var i = 0; i < this.data.length; i++) {
+                    if (this.data[i].id == id) {
+                        find = true;
+                        this.data[i].count++;
+                        break;
+                    }
+                }
+
+                if (!find) {
+                    this.data.push({
+                        id: id,
+                        count: 1
+                    });
+                }
+
+                this.saveBasket();
+            },
+            fullRemove: function(id) {
                 var result = [];
                 this.data.forEach(function(item) {
                     if (item.id != id) {
                         result.push(item);
                     }
                 });
-                setCookie('basket', JSON.stringify(result));
-                ico.recalc();
                 this.data = result;
+                this.saveBasket();
+
+            },
+            saveBasket: function() {
+                var that = this;
+                $.ajax({
+                    url:  '/basket/save',
+                    type: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({items: that.data, sum: ico.sum}),
+                    success: function(data) {
+                        that.prepareResponse(data.result);
+                    }
+                });
+            },
+            prepareResponse: function(result) {
+                this.sum = ico.sum = result.sum;
+                this.data = result.items;
+                if (this.data.length == 0)
+                    $('#modal1').modal('close');
             }
         },
         data: {
@@ -69,26 +132,14 @@
     });
 
 
-    var ico = window.bascket = new Vue({
+    var ico = new Vue({
         el: '.basket-ico',
-        created: function () {
-            this.recalc();
-        },
         methods: {
             open: function () {
-                if (this.sum > 0 || JSON.parse(getCookie("basket") || '[]').length > 0) {
-                    modal.render();
-                    $('#modal1').modal('open');
-                }
-            },
-            recalc: function () {
-                var result = 0;
-                var array = JSON.parse(getCookie("basket") || '[]');
-                array.forEach(function(code) {
-                    result += allPrices[code];
-                });
+                if (this.sum == 0)
+                    return;
 
-                this.sum = result;
+                $('#modal1').modal('open');
             }
         },
         data: {
@@ -108,7 +159,6 @@
                     this.email = null;
                     this.title = 'Личный кабинет';
                 }
-
             },
             singIn: function() {
                 if (this.email)

@@ -20,12 +20,7 @@
                 $('.materialboxed').materialbox();
             },
             add: function() {
-                var array = JSON.parse(getCookie('basket') || '[]');
-                if (!array.includes(this.id))
-                    array.push(this.id);
-
-                setCookie('basket', JSON.stringify(array));
-                bascket.recalc();
+                bascket.add(this.id);
             }
         },
         data: {

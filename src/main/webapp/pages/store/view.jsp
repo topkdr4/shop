@@ -136,8 +136,7 @@
     window.currentUser = <%= Json.toJson(user)%>;
 </script>
 
-<script type="text/javascript" src="../../static/pages/store/cookie-util.js"></script>
-<script type="text/javascript" src="../../static/pages/store/view.js"></script>
 <script type="text/javascript" src="../../static/pages/store/basket.js"></script>
+<script type="text/javascript" src="../../static/pages/store/view.js"></script>
 </body>
 </html>
