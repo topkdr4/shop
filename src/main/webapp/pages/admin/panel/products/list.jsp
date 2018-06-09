@@ -46,9 +46,6 @@
             </ul>
         </li>
         <li>
-            <div class="collapsible-header"><i class="material-icons">trending_up</i>Аналитика</div>
-        </li>
-        <li>
             <div class="collapsible-header"><i class="material-icons">attach_money</i>Платежи <span class="new badge light-blue darken-3">4</span></div>
         </li>
         <li>

@@ -1,9 +1,8 @@
 package ru.vetoshkin.store.user.rest;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.vetoshkin.store.admin.AdminAuth;
+import ru.vetoshkin.store.basket.OrderHistory;
+import ru.vetoshkin.store.basket.dao.BasketStorage;
 import ru.vetoshkin.store.core.AuthFilter;
 import ru.vetoshkin.store.core.SimpleResponse;
 import ru.vetoshkin.store.user.User;
@@ -14,6 +13,7 @@ import ru.vetoshkin.store.util.ServletUtil;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 
 
@@ -68,6 +68,14 @@ public class UserController {
         cookie.setHttpOnly(true);
 
         response.addCookie(cookie);
+    }
+
+
+    @ResponseBody
+    @RequestMapping(path = "/payment/{page}", method = RequestMethod.POST)
+    public SimpleResponse<List<OrderHistory>> getPaymentHistory(@PathVariable(name = "page") int page, HttpServletRequest request) throws Exception {
+        User user = ServletUtil.getUser(request, AuthFilter.cookieName);
+        return new SimpleResponse<>(BasketStorage.getOrderHistory(user.getEmail(), page));
     }
 
 }

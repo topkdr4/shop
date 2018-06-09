@@ -1,4 +1,5 @@
 package ru.vetoshkin.store.basket.rest;
+import com.google.common.hash.Hashing;
 import org.springframework.web.bind.annotation.*;
 import ru.vetoshkin.store.basket.Basket;
 import ru.vetoshkin.store.basket.dao.BasketStorage;
@@ -60,5 +61,29 @@ public class BasketController {
             throw new Exception("user not found");
 
         return new SimpleResponse<>(BasketStorage.getBasket(cookie.getValue()));
+    }
+
+
+    /**
+     * Оплата товара
+     */
+    @ResponseBody
+    @RequestMapping(value = "/buy", method = RequestMethod.POST)
+    public SimpleResponse<Integer> buy(HttpServletRequest request) throws Exception {
+        Cookie cookie = ServletUtil.getCookie(request, AuthFilter.cookieName);
+        if (cookie == null)
+            throw new Exception("user not found");
+
+        String sessionId = cookie.getValue();
+        User user = UserStorage.getUser(sessionId);
+
+        if (user == null)
+            throw new Exception("user not found");
+
+
+        Basket basket = BasketStorage.getBasket(sessionId);
+        BasketStorage.clear(sessionId);
+        int orderId = BasketStorage.buy(basket, user.getEmail());
+        return new SimpleResponse<>(orderId);
     }
 }

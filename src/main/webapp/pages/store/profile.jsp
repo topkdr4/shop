@@ -4,6 +4,7 @@
 <%@ page import="ru.vetoshkin.store.core.AuthFilter" %>
 <%@ page import="ru.vetoshkin.store.util.ServletUtil" %>
 <%@ page import="ru.vetoshkin.store.util.Json" %>
+<%@ page import="ru.vetoshkin.store.basket.dao.BasketStorage" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" errorPage="../error/404.jsp" %>
 <html lang="en">
 <head>
@@ -23,6 +24,9 @@
 
         if (user == null)
             throw new Exception("Пользователь не найден");
+
+        int orderCount = BasketStorage.getOrderCount(user.getEmail());
+        int pageCount  = orderCount / 20 + 1;
     %>
 
     <title>Профиль</title>
@@ -71,7 +75,27 @@
                 <div id="history" class="col s12 card">
                     <div class="card-content">
                         <div class="row">
+                            <div class="col s12">
+                                <table class="striped centered search-result col s12">
+                                    <thead>
+                                        <tr>
+                                            <th>№</th>
+                                            <th>Сумма</th>
+                                            <th>Дата</th>
+                                            <th>Статус</th>
+                                        </tr>
+                                    </thead>
 
+                                    <tbody>
+                                        <tr v-for="item in data">
+                                            <td>{{item.id}}</td>
+                                            <td>{{item.price}}</td>
+                                            <td>{{item.time}}</td>
+                                            <td>{{item.status}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col s12">
@@ -96,6 +120,7 @@
 <script type="text/javascript" src="../static/lib/pagination.js"></script>
 <script type="text/javascript">
     window.currentUser = <%= Json.toJson(user)%>;
+    window.pageCount   = <%= Json.toJson(pageCount)%>;
     $('.tabs').tabs();
 </script>
 <script type="text/javascript" src="../static/pages/store/profile.js"></script>

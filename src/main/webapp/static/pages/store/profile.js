@@ -5,7 +5,7 @@
 
     var template = '';
     template += '<paginate ';
-    template +=     ':pageCount="' + 1 + '" ';
+    template +=     ':pageCount="' + window.pageCount + '" ';
     template +=     ':containerClass="\'pagination\'" ';
     template +=     ':clickHandler="clickCallback" />';
 
@@ -13,9 +13,7 @@
         el: '.pagination',
         template: template,
         methods: {
-            clickCallback: function(page) {
-
-            }
+            clickCallback: getHistoryItems
         }
     });
 
@@ -49,13 +47,44 @@
     });
 
 
-    if (currentUser)
-        profile.setState(currentUser);
+    function getHistoryItems(page) {
+        $.ajax({
+            url:  '/user/payment/' + page,
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            success: function(data) {
+                history.setState(data.result);
+            }
+        })
+    }
 
+
+    if (currentUser) {
+        profile.setState(currentUser);
+        getHistoryItems(1);
+    }
 
 
     var history = new Vue({
-        el: '#history'
+        el: '#history',
+        methods: {
+            setState: function(state) {
+                var result = [];
+                state.forEach(function(item) {
+                    result.push({
+                        id: item.orderId,
+                        price: item.price,
+                        time: new Date(item.time).toLocaleString(),
+                        status: item.status
+                    })
+                });
+
+                this.data = result;
+            }
+        },
+        data: {
+            data: []
+        }
     });
 
 })();

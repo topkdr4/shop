@@ -49,19 +49,25 @@
         },
         methods: {
             buy: function() {
-                var form = '';
-                form += '<form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml" style="display: none">';
-                form +=     '<input type="hidden" name="receiver"    value="41001775291979">';
-                form +=     '<input type="hidden" name="quickpay-form" value="donate">';
-                form +=     '<input type="hidden" name="targets"     value="транзакция">';
-                form +=     '<input type="hidden" name="sum"         class="sum" value="' + ico.sum + '" data-type="number">';
-                form +=     '<input type="radio"  name="paymentType" value="AC" checked="checked">';
-                form +=     '<input type="submit" value="Перевести"  class="go">';
-                form +=     '<input type="hidden" name="successURL"  value="http://localhost:8181/store">';
-                form += '</form>';
+                $.ajax({
+                    url:  '/basket/buy',
+                    type: 'POST',
+                    success: function(data) {
+                        var form = '';
+                        form += '<form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml" style="display: none">';
+                        form +=     '<input type="hidden" name="receiver"      value="41001775291979">';
+                        form +=     '<input type="hidden" name="quickpay-form" value="donate">';
+                        form +=     '<input type="hidden" name="label"         value="' + data.result + '">';
+                        form +=     '<input type="hidden" name="sum"         class="sum" value="' + ico.sum + '" data-type="number">';
+                        form +=     '<input type="radio"  name="paymentType" value="AC" checked="checked">';
+                        form +=     '<input type="hidden" name="successURL"  value="http://localhost:8181/store">';
+                        form +=     '<input type="submit" value="Перевести"  class="go">';
+                        form += '</form>';
 
-                $('body').append($(form));
-                $('.go').click();
+                        $('body').append($(form));
+                        $('.go').click();
+                    }
+                });
             },
             remove: function(id) {
                 for (var i = 0; i < this.data.length; i++) {
