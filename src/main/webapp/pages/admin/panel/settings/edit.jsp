@@ -3,6 +3,7 @@
 <%@ page import="ru.vetoshkin.store.settings.Carousel" %>
 <%@ page import="java.util.List" %>
 <%@ page import="ru.vetoshkin.store.settings.BestProduct" %>
+<%@ page import="ru.vetoshkin.store.basket.dao.OrderStorage" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -15,6 +16,7 @@
         Settings settings = Settings.getInstance();
         List<String> urls = Carousel.getUrls();
         List<String> best = BestProduct.getAll();
+        int newOrders = OrderStorage.getNewOrderCount();
     %>
     <title>Настройки</title>
 </head>
@@ -53,8 +55,12 @@
             </ul>
         </li>
         <li>
-            <div class="collapsible-header"><i class="material-icons">attach_money</i>Платежи <span
-                    class="new badge light-blue darken-3">4</span></div>
+            <div class="collapsible-header"><i class="material-icons">attach_money</i><a href="/admin/orders/list">Платежи</a>
+                <%
+                    if (newOrders > 0)
+                        out.print("<span class=\"new badge light-blue darken-3\">" + newOrders + "</span>");
+                %>
+            </div>
         </li>
         <li>
             <div class="collapsible-header"><i class="material-icons">settings</i>Настройки</div>

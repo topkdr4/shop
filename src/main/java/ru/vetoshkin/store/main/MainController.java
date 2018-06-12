@@ -73,6 +73,15 @@ public class MainController {
 
 
     /**
+     * Страница платежей
+     */
+    @RequestMapping(path = "/admin/orders/list", method = RequestMethod.GET)
+    public String getOrdersList() {
+        return "admin/panel/orders/list";
+    }
+
+
+    /**
      * Основной магазин
      */
     @RequestMapping(path = "/store", method = RequestMethod.GET)

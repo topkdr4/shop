@@ -1,5 +1,6 @@
 <%@ page import="ru.vetoshkin.store.util.Json" %>
 <%@ page import="ru.vetoshkin.store.mail.dao.TemplatesStorage" %>
+<%@ page import="ru.vetoshkin.store.basket.dao.OrderStorage" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -68,6 +69,9 @@
         }
 
     </style>
+    <%
+        int newOrders = OrderStorage.getNewOrderCount();
+    %>
 </head>
 <body class="grey lighten-5">
 
@@ -104,8 +108,12 @@
             </ul>
         </li>
         <li>
-            <div class="collapsible-header"><i class="material-icons">attach_money</i>Платежи <span
-                    class="new badge light-blue darken-3">4</span></div>
+            <div class="collapsible-header"><i class="material-icons">attach_money</i><a href="/admin/orders/list">Платежи</a>
+                <%
+                    if (newOrders > 0)
+                        out.print("<span class=\"new badge light-blue darken-3\">" + newOrders + "</span>");
+                %>
+            </div>
         </li>
         <li>
             <div class="collapsible-header"><i class="material-icons">settings</i>Настройки</div>
