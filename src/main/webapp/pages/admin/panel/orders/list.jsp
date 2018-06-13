@@ -60,7 +60,11 @@
     </style>
     <%
         int newOrders = OrderStorage.getNewOrderCount();
+        int pages     = OrderStorage.getPageCount();
     %>
+    <script type="text/javascript">
+        window.pages = <%= pages%>;
+    </script>
 </head>
 <body class="grey lighten-5">
 
@@ -118,36 +122,35 @@
     </ul>
 </div>
 
-<main class="row templates-result">
-    <div class="col s10 offset-l1 card">
-        11
-    </div>
+<main class="row order-result">
     <div class="col s10 offset-l1 card" style="padding: 0;">
-        <table class="striped">
+        <table class="striped centered">
             <thead>
-            <tr>
-                <th>Название</th>
-                <th>Описание</th>
-                <th></th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th>№ Заказа</th>
+                    <th>Дата/время</th>
+                    <th>Сумма</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
-            <tr v-for="(value, key) in source">
-                <td>{{key}}</td>
-                <td>{{value}}</td>
-                <td>
-                    <a class="waves-effect waves-red    btn-flat" @click="remove(key)"><i class="material-icons">remove</i></a>
-                    <a class="waves-effect waves-yellow btn-flat" @click="edit(key)"><i class="material-icons">edit</i></a>
-                </td>
-                <td>
-                    <a class="waves-effect waves-green  btn-flat" @click="send(key)"><i class="material-icons">send</i></a>
-                </td>
-            </tr>
+                <tr v-for="(item, index) in source">
+                    <td>{{item.orderId}}</td>
+                    <td>{{item.time}}</td>
+                    <td>{{item.price}}</td>
+                    <td>
+                        <select class="browser-default" v-model="item.status" @change="change(index)">
+                            <option value="PAID">Оплачено</option>
+                            <option value="WAITING">Ожидание оплаты</option>
+                        </select>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
-    <a class="btn-floating btn-large waves-effect waves-light red fixed-button" @click="add()"><i class="material-icons">add</i></a>
+    <div class="col s10 offset-l1">
+        <div class="pagination"></div>
+    </div>
 </main>
 
 
@@ -158,4 +161,5 @@
 <script type="text/javascript" src="../../static/lib/materialize.js"></script>
 <script type="text/javascript" src="../../static/lib/pagination.js"></script>
 <script type="text/javascript" src="../../static/pages/admin/panel/main.js"></script>
+<script type="text/javascript" src="../../static/pages/admin/panel/orders/list.js"></script>
 </html>

@@ -1,5 +1,4 @@
 package ru.vetoshkin.store.basket.rest;
-import com.google.common.hash.Hashing;
 import org.springframework.web.bind.annotation.*;
 import ru.vetoshkin.store.basket.Basket;
 import ru.vetoshkin.store.basket.dao.BasketStorage;

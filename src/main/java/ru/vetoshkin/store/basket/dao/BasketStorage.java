@@ -198,17 +198,10 @@ public class BasketStorage {
             ResultSet set = (ResultSet) statement.getObject(1);
 
             while (set.next()) {
-                OrderHistory item = new OrderHistory();
-                item.setOrderId(set.getInt(1));
-                item.setTime(new Date(set.getTimestamp(2).getTime()));
-                item.setPrice(set.getFloat(4));
-                item.setStatus(OrderStatus.fromMap(set.getString(5)));
-
-                result.add(item);
+                result.add(OrderHistory.create(set));
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
 

@@ -12,7 +12,7 @@
  Target Server Version : 90604
  File Encoding         : 65001
 
- Date: 06/06/2018 00:15:49
+ Date: 13/06/2018 21:43:14
 */
 
 
@@ -24,6 +24,12 @@ CREATE TABLE "settings"."t_best_product" (
   "product_id" text COLLATE "pg_catalog"."default" NOT NULL
 )
 ;
+
+-- ----------------------------
+-- Records of t_best_product
+-- ----------------------------
+INSERT INTO "settings"."t_best_product" VALUES ('custom1');
+INSERT INTO "settings"."t_best_product" VALUES ('A1523');
 
 -- ----------------------------
 -- Table structure for t_carousel
@@ -56,9 +62,9 @@ CREATE TABLE "settings"."t_settings" (
 -- ----------------------------
 INSERT INTO "settings"."t_settings" VALUES ('shop.title', 'Веломагазин «Speed OF Life»');
 INSERT INTO "settings"."t_settings" VALUES ('smtp.host', 'smtp.mail.ru');
-INSERT INTO "settings"."t_settings" VALUES ('smtp.port', '');
-INSERT INTO "settings"."t_settings" VALUES ('smtp.user', '');
-INSERT INTO "settings"."t_settings" VALUES ('smtp.pwd', '');
+INSERT INTO "settings"."t_settings" VALUES ('smtp.port', '465');
+INSERT INTO "settings"."t_settings" VALUES ('smtp.user', 'topkdr4@mail.ru');
+INSERT INTO "settings"."t_settings" VALUES ('smtp.pwd', 'Crjhjcnmcdtnf229,');
 
 -- ----------------------------
 -- Table structure for t_templates
@@ -87,6 +93,24 @@ INSERT INTO "settings"."t_templates" VALUES ('Пример шаблона 1', '<
   <body>
   </body>
 </html>', '');
+
+-- ----------------------------
+-- Function structure for get_best_product
+-- ----------------------------
+DROP FUNCTION IF EXISTS "settings"."get_best_product"();
+CREATE OR REPLACE FUNCTION "settings"."get_best_product"()
+  RETURNS "pg_catalog"."refcursor" AS $BODY$
+DECLARE
+res refcursor;
+BEGIN
+open res for
+SELECT
+* FROM settings.t_best_product;
+RETURN res;
+
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
 
 -- ----------------------------
 -- Function structure for get_carousel
@@ -127,25 +151,6 @@ END; $BODY$
 -- ----------------------------
 -- Function structure for get_template
 -- ----------------------------
-DROP FUNCTION IF EXISTS "settings"."get_template"();
-CREATE OR REPLACE FUNCTION "settings"."get_template"()
-  RETURNS "pg_catalog"."refcursor" AS $BODY$
-DECLARE
-res refcursor;
-BEGIN
-open res for
-	SELECT
-	* FROM settings.t_templates;
-	
-	RETURN res;
-
-END; $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-
--- ----------------------------
--- Function structure for get_template
--- ----------------------------
 DROP FUNCTION IF EXISTS "settings"."get_template"("p_key" text);
 CREATE OR REPLACE FUNCTION "settings"."get_template"("p_key" text)
   RETURNS "pg_catalog"."refcursor" AS $BODY$
@@ -163,6 +168,25 @@ END; $BODY$
   COST 100;
 
 -- ----------------------------
+-- Function structure for get_template
+-- ----------------------------
+DROP FUNCTION IF EXISTS "settings"."get_template"();
+CREATE OR REPLACE FUNCTION "settings"."get_template"()
+  RETURNS "pg_catalog"."refcursor" AS $BODY$
+DECLARE
+res refcursor;
+BEGIN
+open res for
+	SELECT
+	* FROM settings.t_templates;
+	
+	RETURN res;
+
+END; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+-- ----------------------------
 -- Function structure for remove_template
 -- ----------------------------
 DROP FUNCTION IF EXISTS "settings"."remove_template"("p_key" text);
@@ -170,6 +194,24 @@ CREATE OR REPLACE FUNCTION "settings"."remove_template"("p_key" text)
   RETURNS "pg_catalog"."void" AS $BODY$DECLARE
 BEGIN
 	delete from "settings".t_templates t where t.key = p_key;
+END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+-- ----------------------------
+-- Function structure for save_best_product
+-- ----------------------------
+DROP FUNCTION IF EXISTS "settings"."save_best_product"("p_codes" _text);
+CREATE OR REPLACE FUNCTION "settings"."save_best_product"("p_codes" _text)
+  RETURNS "pg_catalog"."void" AS $BODY$DECLARE
+	item text;
+BEGIN
+	delete from settings.t_best_product;
+	foreach item in array p_codes loop
+		insert into settings.t_best_product(product_id)
+		values(item);
+	end loop;
 END
 $BODY$
   LANGUAGE plpgsql VOLATILE
