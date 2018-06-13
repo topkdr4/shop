@@ -57,6 +57,7 @@
                         form += '<form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml" style="display: none">';
                         form +=     '<input type="hidden" name="receiver"      value="41001775291979">';
                         form +=     '<input type="hidden" name="quickpay-form" value="donate">';
+                        form +=     '<input type="hidden" name="targets" value="Зказаз: №' + data.result + '">';
                         form +=     '<input type="hidden" name="label"         value="' + data.result + '">';
                         form +=     '<input type="hidden" name="sum"         class="sum" value="' + ico.sum + '" data-type="number">';
                         form +=     '<input type="radio"  name="paymentType" value="AC" checked="checked">';
