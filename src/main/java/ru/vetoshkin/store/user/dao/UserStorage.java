@@ -93,13 +93,13 @@ public class UserStorage {
     /**
      * Регистрация клиента
      */
-    public static void registration(User user) throws SQLException {
+    public static void  registration(User user) throws SQLException {
         try (Connection connection = HikariPool.getSource().getConnection()) {
             connection.setAutoCommit(true);
 
             String hash = AdminService.getHash(user.getPassword());
 
-            CallableStatement statement = connection.prepareCall("{call client.save_client(?, ?, ?)}");
+            CallableStatement statement = connection.prepareCall("{call client.save_client(?, ?, ?, ?)}");
             statement.setString(1, user.getEmail());
             statement.setString(2, hash);
             statement.setString(3, user.getName());

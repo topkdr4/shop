@@ -27,7 +27,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 @Service
 @Initialize
 public class ProductService {
-    private static final int itemsPerPage = 20;
+    private static final int itemsPerPage = 8;
     private static final BlockingQueue<Holder> queue = new LinkedBlockingQueue<>();
     private static final ExecutorService executors = Executors.newFixedThreadPool(10);
 

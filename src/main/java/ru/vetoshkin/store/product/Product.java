@@ -59,7 +59,8 @@ public class Product implements DataTransferObject<ProductResponse> {
         result.setTitle(title);
         result.setImages(images);
         result.setPrice(price);
-        
+        result.setDescription(description);
+
         return result;
     }
 }

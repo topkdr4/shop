@@ -19,5 +19,10 @@
         <url-pattern>/admin/*</url-pattern>
     </filter-mapping>
 
+    <listener>
+        <listener-class>
+            ru.vetoshkin.store.core.configuration.WebApplicationBootstrap
+        </listener-class>
+    </listener>
 
 </web-app>

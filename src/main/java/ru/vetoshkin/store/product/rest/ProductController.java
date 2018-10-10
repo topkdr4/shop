@@ -13,11 +13,13 @@ import ru.vetoshkin.store.product.dao.ProductService;
 import ru.vetoshkin.store.product.dao.ProductStorage;
 import ru.vetoshkin.store.product.dto.ProductRequest;
 import ru.vetoshkin.store.product.dto.ProductResponse;
+import ru.vetoshkin.store.settings.BestProduct;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import java.io.ByteArrayInputStream;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -128,6 +130,15 @@ public class ProductController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    /**
+     * Список лучший товаров
+     */
+    @RequestMapping(value = "/best", method = RequestMethod.POST)
+    public SimpleResponse<Collection<Product>> getBest() {
+        return new SimpleResponse<>(BestProduct.getALlProducts().values());
     }
 
 }

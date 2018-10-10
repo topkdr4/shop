@@ -33,4 +33,9 @@ public class ProductResponse {
      * Цена
      */
     private float price;
+
+    /**
+     * Описание
+     */
+    private String description;
 }
