@@ -12,7 +12,7 @@
  Target Server Version : 90604
  File Encoding         : 65001
 
- Date: 13/06/2018 21:44:08
+ Date: 11/10/2018 12:14:45
 */
 
 
@@ -30,17 +30,7 @@ CREATE TABLE "client"."t_client_sessions" (
 -- ----------------------------
 -- Records of t_client_sessions
 -- ----------------------------
-INSERT INTO "client"."t_client_sessions" VALUES ('topkdr4@mail.ru', 'DGNPF15JP07L26CFXHPZREUXOO8N4H04G8AH8J6FEGIWJDCRC6XE5RSNDM2AVC8B', '2018-06-17 16:25:31.9');
-INSERT INTO "client"."t_client_sessions" VALUES ('topkdr4@mail.ru', 'HE3BCSQYC7UWAI4C1Q2QTLHS3M7451ENYYYUGKYTJR3RGDJCR5QMI6FPHUPSM29W', '2018-06-17 16:30:57');
-INSERT INTO "client"."t_client_sessions" VALUES ('topkdr4@mail.ru', 'KHC1UV86S4WPWWJ34KVJY6O1GNFE3EYBQ5GLELDPBQE7AAN4AC7SVYIVS3CHHWNO', '2018-06-17 16:31:13.698');
-INSERT INTO "client"."t_client_sessions" VALUES ('topkdr4@mail.ru', 'K9EXO2R49UG28XBPUU6HG1K2I93GC2NYJD62YCRYUBT2159XFI6831GHZO7COLE7', '2018-06-18 18:24:44.112');
-INSERT INTO "client"."t_client_sessions" VALUES ('topkdr4@mail.ru', 'UYHKPYZFU5WS9D0T5ZFWCL5K2WV2HTAVWZQ5YDZI9H2N7OCRUZ5WWATS78V372ZQ', '2018-06-18 18:26:18.866');
-INSERT INTO "client"."t_client_sessions" VALUES ('topkdr4@mail.ru', 'PTTAT4IQG5NGK9Q4V938XHFGWHIBBT657DYLMF4BP1N2HS3C7YEYH10VX4FI6X92', '2018-06-18 18:47:32.491');
-INSERT INTO "client"."t_client_sessions" VALUES ('skuilffunny@gmail.com', 'ZG1NRGHKNWBFHO6TDNC7ZRHGD4YHITWJUDT31KMX2B2GRNO7051NVW16H4QH2FVS', '2018-06-20 00:24:25.206');
-INSERT INTO "client"."t_client_sessions" VALUES ('skuilffunny@gmail.com', 'ST6IQH8C1NZ7BV3MMPKCCUQT8SVM79GXHKIBYPNY8T5DE2RXAW0HY3XWW1HD7CGI', '2018-06-20 20:05:49.539');
-INSERT INTO "client"."t_client_sessions" VALUES ('skuilffunny@gmail.com', '1L2F9D7NB1OH6GPS2QVC3Z59K5PLQ999RMCDU1BA9AC3LKYG0G5KUJP1SREY8BB3', '2018-06-21 10:33:18.386');
-INSERT INTO "client"."t_client_sessions" VALUES ('skuilffunny@gmail.com', '2V9CTSPIY9WCK88NMV5K1TMU9Q6OFKHIWRE3M7UISPFD8F3XN5W9QKUBH8VHAZ0T', '2018-06-21 12:59:48.497');
-INSERT INTO "client"."t_client_sessions" VALUES ('skuilffunny@gmail.com', 'FVLTKY20G1M5ED297ZOCWAHMOYNNR6VJDSJYA8H5WTIXVGLVXXO6WVG2V7ZB8LUD', '2018-06-26 17:17:54.269');
+INSERT INTO "client"."t_client_sessions" VALUES ('vadimkamkb@mail.ru', '2RYQ59OO87EPATDE6KVTYBODJNLZ9GDKNU76QB4VD9CW4IYB4C47E345SK42LFFY', '2018-10-25 09:22:50.894');
 
 -- ----------------------------
 -- Table structure for t_clients
@@ -58,6 +48,8 @@ CREATE TABLE "client"."t_clients" (
 -- Records of t_clients
 -- ----------------------------
 INSERT INTO "client"."t_clients" VALUES ('skuilffunny@gmail.com', 'e0113ca7a1d204db34ad4434267870c5256146ca915510d791b84a0cfa09857eaf251a2d7e160094d230f6a7b6b6560fb52ead742d13e5526a5f3650653402b2', '123', 't');
+INSERT INTO "client"."t_clients" VALUES ('mmm@mail.ru', '0dd3e512642c97ca3f747f9a76e374fbda73f9292823c0313be9d78add7cdd8f72235af0c553dd26797e78e1854edee0ae002f8aba074b066dfce1af114e32f8', 'f', 'f');
+INSERT INTO "client"."t_clients" VALUES ('vadimkamkb@mail.ru', '0dd3e512642c97ca3f747f9a76e374fbda73f9292823c0313be9d78add7cdd8f72235af0c553dd26797e78e1854edee0ae002f8aba074b066dfce1af114e32f8', 'Вадим ', 'f');
 
 -- ----------------------------
 -- Function structure for get_all_client
@@ -165,3 +157,8 @@ ALTER TABLE "client"."t_client_sessions" ADD CONSTRAINT "t_client_sessions_pkey"
 -- Primary Key structure for table t_clients
 -- ----------------------------
 ALTER TABLE "client"."t_clients" ADD CONSTRAINT "t_clients_pkey" PRIMARY KEY ("email");
+
+-- ----------------------------
+-- Foreign Keys structure for table t_client_sessions
+-- ----------------------------
+ALTER TABLE "client"."t_client_sessions" ADD CONSTRAINT "fk_client" FOREIGN KEY ("client_email") REFERENCES "client"."t_clients" ("email") ON DELETE NO ACTION ON UPDATE NO ACTION;
